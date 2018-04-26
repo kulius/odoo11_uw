@@ -1,0 +1,3 @@
+id,name,description,chart_template_id/id,type_tax_use,amount_type,amount,price_include,sequence,include_base_amount,account_id/id,refund_account_id/id,tag_ids/id
+tax_sale_o,銷售稅額(5%),銷售稅額(5%),l10n_chart_tw_standard_business,sale,percent,5,FALSE,1,FALSE,tw_221401,tw_221401,"tag1"
+tax_purchase_i,進項稅額(5%),進項稅額(5%),l10n_chart_tw_standard_business,purchase,percent,5,FALSE,1,FALSE,tw_142301,tw_142301,"tag2"

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cf_template_view" model="ir.ui.view">
+            <field name="name">cf.template.form</field>
+            <field name="model">cf.template</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Manage CFPrint Template">
+                    <group>
+                        <field name="templ_id"/>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="template"/>
+                        <field name="preview_img" widget='image'/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="cf_template_list" model="ir.ui.view">
+            <field name="name">cf.template.list</field>
+            <field name="model">cf.template</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="CFPrint Templates">
+                    <field name="templ_id"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <!--field name="template"/-->
+                    <field name="preview_img" widget='image'/>
+                    <field name="write_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- 模板管理Action -->
+        <record id="action_cf_template" model="ir.actions.act_window">
+            <field name="name">CFPrint Template Management</field>
+            <field name="res_model">cf.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_cf_root" name="CFPrint" parent="base.menu_custom"/> <!-- 挂在 设置-技术 菜单下面 -->
+        <menuitem id="menu_cf_template" name="Templates Management" parent="cfprint.menu_cf_root" action="action_cf_template"/>
+    </data>
+</odoo>

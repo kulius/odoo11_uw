@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="invoice_paper_line_tree" model="ir.ui.view">
+            <field name="name">invoice paper line tree</field>
+            <field name="model">account.invoice.paper.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sale_order_number"/>
+                    <field name="confirmation_date"/>
+                    <field name="customer"/>
+                    <field name="sale_order_amount"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_account_invoice_paper_line">
+            <field name="name">紙本發票</field>
+            <field name="res_model">account.invoice.paper.line</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="account_invoice_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.form.inherit</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/group/field[@name='payment_term_id']" position="after">
+                    <field name="sale_order_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

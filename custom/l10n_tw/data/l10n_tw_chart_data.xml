@@ -1,0 +1,31 @@
+<odoo>
+    <menuitem id="account_reports_tw_statements_menu" name="Taiwan Statements" parent="account.menu_finance_reports"
+              sequence="3" groups="account.group_account_user"/>
+    <!-- 2016/05 IFRS 科目模版 -->
+    <record id="transfer_account_id" model="account.account.template">
+        <field name="code">A99999</field>
+        <field name="name">轉讓帳戶</field>
+        <field name="reconcile" eval="True"/>
+        <field name="user_type_id" ref="account.data_account_type_current_assets"/>
+    </record>
+    <record id="l10n_chart_tw_standard_business" model="account.chart.template">
+        <field name="name">台灣中小企業財務準則(IFRS)之會計科(項)目表</field>
+        <field name="code_digits">6</field>
+        <field name="cash_account_code_prefix">110101</field>
+        <field name="bank_account_code_prefix">110301</field>
+        <field name="currency_id" ref="base.TWD"/>
+        <field name="transfer_account_id" ref="transfer_account_id"/>
+    </record>
+    <record id="transfer_account_id" model="account.account.template">
+        <field name="chart_template_id" ref="l10n_chart_tw_standard_business"/>
+    </record>
+    <!-- Account Tags -->
+    <record id="tag1" model="account.account.tag">
+        <field name="name">銷項稅額5%</field>
+        <field name="applicability">taxes</field>
+    </record>
+    <record id="tag2" model="account.account.tag">
+        <field name="name">進項稅額5%</field>
+        <field name="applicability">taxes</field>
+    </record>
+</odoo>

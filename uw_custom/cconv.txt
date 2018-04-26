@@ -1,0 +1,2 @@
+//odoo/uw_custom/cfprint/i18n/._zh_CN.po
+//odoo/uw_custom/cfprint/i18n/zh_CN.po

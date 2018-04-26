@@ -1,0 +1,226 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* cfprint
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-10-19 00:16+0000\n"
+"PO-Revision-Date: 2017-10-19 00:16+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cfprint
+#: code:addons/cfprint/ir/ir_qweb/fields.py:381
+#, python-format
+msgid "A unit must be provided to duration widgets"
+msgstr "必须给时间控件指定单位"
+
+#. module: cfprint
+#: model:ir.ui.menu,name:cfprint.menu_cf_root
+msgid "CFPrint"
+msgstr "康虎云报表"
+
+#. module: cfprint
+#: model:ir.actions.act_window,name:cfprint.action_cf_template
+msgid "CFPrint Template Management"
+msgstr "康虎云报表模板管理"
+
+#. module: cfprint
+#: model:ir.ui.view,arch_db:cfprint.cf_template_list
+msgid "CFPrint Templates"
+msgstr "康虎云报表模板"
+
+#. module: cfprint
+#: model:ir.model.fields,help:cfprint.field_cf_template_template
+msgid "Content of template"
+msgstr "模板内容"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_create_uid
+msgid "Created by"
+msgstr "创建人"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_create_date
+msgid "Created on"
+msgstr "创建时间"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_description
+msgid "Description"
+msgstr "说明"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_display_name
+msgid "Display Name"
+msgstr "显示名称"
+
+#. module: cfprint
+#: code:addons/cfprint/ir/ir_qweb/fields.py:378
+#, python-format
+msgid "Durations can't be negative"
+msgstr "时长不能为负数"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_id
+msgid "ID"
+msgstr "ID"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template___last_update
+msgid "Last Modified on"
+msgstr "最后修改日"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_write_uid
+msgid "Last Updated by"
+msgstr "最后更新人"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_write_date
+msgid "Last Updated on"
+msgstr "最后更新时间"
+
+#. module: cfprint
+#: model:ir.ui.view,arch_db:cfprint.cf_template_view
+msgid "Manage CFPrint Template"
+msgstr "管理康虎云报表模板"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_name
+msgid "Name"
+msgstr "名称"
+
+#. module: cfprint
+#: model:ir.model.fields,help:cfprint.field_cf_template_preview_img
+msgid "Picture used to preview a report"
+msgstr "预览该模板效果的图片"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_preview_img
+msgid "Preview image"
+msgstr "预览图"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_report
+msgid "Report"
+msgstr "报表"
+
+#. module: cfprint
+#: code:addons/cfprint/models/cf_templates.py:68
+#: model:ir.model,name:cfprint.model_cf_template
+#, python-format
+msgid "Report templates of CFPrint"
+msgstr "康虎云报表模板"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_template
+msgid "Template"
+msgstr "模板"
+
+#. module: cfprint
+#: model:ir.model.fields,field_description:cfprint.field_cf_template_templ_id
+msgid "Template ID"
+msgstr "模板ID"
+
+#. module: cfprint
+#: sql_constraint:cf.template:0
+msgid "Template ID already exists!"
+msgstr "模板ID已存在!"
+
+#. module: cfprint
+#: model:ir.ui.menu,name:cfprint.menu_cf_template
+msgid "Templates Management"
+msgstr "模板管理"
+
+#. module: cfprint
+#: model:ir.model.fields,help:cfprint.field_cf_template_templ_id
+msgid "Unique ID of template"
+msgstr "模板的唯一ID"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb
+msgid "ir.qweb"
+msgstr "ir.qweb"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field
+msgid "ir.qweb.field"
+msgstr "ir.qweb.field"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_contact
+msgid "ir.qweb.field.contact"
+msgstr "ir.qweb.field.contact"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_date
+msgid "ir.qweb.field.date"
+msgstr "ir.qweb.field.date"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_datetime
+msgid "ir.qweb.field.datetime"
+msgstr "ir.qweb.field.datetime"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_duration
+msgid "ir.qweb.field.duration"
+msgstr "ir.qweb.field.duration"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_float
+msgid "ir.qweb.field.float"
+msgstr "ir.qweb.field.float"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_html
+msgid "ir.qweb.field.html"
+msgstr "ir.qweb.field.html"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_image
+msgid "ir.qweb.field.image"
+msgstr "ir.qweb.field.image"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_integer
+msgid "ir.qweb.field.integer"
+msgstr "ir.qweb.field.integer"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_many2one
+msgid "ir.qweb.field.many2one"
+msgstr "ir.qweb.field.many2one"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_monetary
+msgid "ir.qweb.field.monetary"
+msgstr "ir.qweb.field.monetary"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_qweb
+msgid "ir.qweb.field.qweb"
+msgstr "ir.qweb.field.qweb"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_relative
+msgid "ir.qweb.field.relative"
+msgstr "ir.qweb.field.relative"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_selection
+msgid "ir.qweb.field.selection"
+msgstr "ir.qweb.field.selection"
+
+#. module: cfprint
+#: model:ir.model,name:cfprint.model_ir_qweb_field_text
+msgid "ir.qweb.field.text"
+msgstr "ir.qweb.field.text"
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="uw_partner_form_inherit" model="ir.ui.view">
+            <field name="name">uw.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='lang']" position="after">
+                    <field name="bus_time" string="營業時間"/>
+                    <field name="bus_day" string="營業日"/>
+                </xpath>
+                <xpath expr="//page[2]" postiton="inside">
+                    <field name="comment1"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="cus_no"/>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="after">
+
+                    <field name="cus_kind"/>
+                    <!--<field name="sno"/>-->
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="replace">
+                    <field name="vat" string="國際稅碼(統編)"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="partner_filter_view_inherit" model="ir.ui.view">
+            <field name="name">partner_filter_view_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" filter_domain="[('name','ilike',self)]"/>
+                    <field name="display_name" filter_domain="[('display_name','ilike',self)]"/>
+                    <field name="ref" filter_domain="[('ref','ilike',self)]"/>
+                    <field name="vat" filter_domain="[('vat','ilike',self)]"/>
+                    <field name="cus_no" filter_domain="[('cus_no','ilike',self)]"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

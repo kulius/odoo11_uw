@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Chart Template -->
+    <record id="l10n_chart_tw_standard_business" model="account.chart.template">
+        <field name="property_account_receivable_id" ref="tw_117201"/>
+        <field name="property_account_payable_id" ref="tw_217101"/>
+        <field name="property_account_expense_id" ref="tw_131501"/>
+        <field name="property_account_income_id" ref="tw_411101"/>
+        <field name="property_account_expense_categ_id" ref="tw_131501"/>
+        <field name="property_account_income_categ_id" ref="tw_411101"/>
+    </record>
+</odoo>

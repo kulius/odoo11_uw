@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record id="product_inherit_form" model="ir.ui.view">
+           <field name="name">product.inherit.form</field>
+           <field name="model">product.template</field>
+           <field name="inherit_id" ref="product.product_template_only_form_view"/>
+           <field name="arch" type="xml">
+               <xpath expr="//field[@name='type']" position="after">
+                   <field name="product_brand"/>
+                   <field name="product_spec"/>
+               </xpath>
+               <xpath expr="//field[@name='type']" position="before">
+                   <field name="product_no"/>
+                   <field name="en_name"/>
+               </xpath>
+               <xpath expr="//field[@name='list_price']" position="after">
+                   <field name="wholesale_price"/>
+                   <field name="barcode"/>
+               </xpath>
+               <xpath expr="//field[@name='categ_id']" position="after">
+                   <field name="product_memo"/>
+               </xpath>
+           </field>
+       </record>
+         <record id="product_filter_view_inherit" model="ir.ui.view">
+            <field name="name">product_filter_view_inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace">
+                    <field name="name" filter_domain="[('name','ilike',self)]"/>
+                    <field name="product_no" filter_domain="[('product_no','ilike',self)]"/>
+                    <field name="product_spec" filter_domain="[('product_spec','ilike',self)]"/>
+                    <field name="en_name" filter_domain="[('en_name','ilike',self)]"/>
+                    <field name="default_code" filter_domain="[('default_code','ilike',self)]"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

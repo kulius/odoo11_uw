@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="uw_partner_import_form_wizard" model="ir.ui.view">
+            <field name="name">uw_partner_import_form_wizard</field>
+            <field name="model">underworld_base.partner_import_wizard</field>
+            <field name="arch" type="xml">
+                <form string="EXCEL FILE IMPORT">
+                    <sheet>
+                        <h1>進貨明細EXCEL匯入</h1>
+                        <group>
+                            <field name="excel_file"/>
+                            <field name="start_row"/>
+                            <field name="end_row"/>
+                        </group>
+                        <notebook>
+                            <page string="格式樣版檔案">
+                                <group>
+                                    <br/>
+                                    <img src="/underworld_base/static/img/excel_file_sample.png"/>
+                                    <br/>
+                                    <a href="/underworld_base/static/file/partner.xlsx">下載樣版格式檔案</a>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button type="object" name="partner_action_import" string="資料匯入" class="oe_highlight"/>
+                        <button special="cancel" string="放棄"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="underworld_base_import_action" model="ir.actions.act_window">
+            <field name="name">合作伙伴資料匯入</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">underworld_base.partner_import_wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="uw_partner_import_form_wizard"/>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="menu_underworld_categ" name="資料匯入精靈" sequence="10" parent="sale.menu_sale_config"/>
+        <menuitem id="menu_underworld_action" name="" sequence="10" parent="menu_underworld_categ" action="underworld_base_import_action"/>
+
+    </data>
+</odoo>

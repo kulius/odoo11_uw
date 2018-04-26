@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="invoice_paper_tree" model="ir.ui.view">
+            <field name="name">invoice paper tree</field>
+            <field name="model">account.invoice.paper</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="invoice_paper"/>
+                    <field name="invoice_paper_date"/>
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="invoice_paper_form" model="ir.ui.view">
+            <field name="name">invoice paper form</field>
+            <field name="model">account.invoice.paper</field>
+            <field name="arch" type="xml">
+                <form class="o_sale_order">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="invoice_paper"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="partner_id" string="客戶"  colspan="2"/>
+                            <field name="invoice_paper_date" string="紙本發票日期" colspan="2"/>
+                        </group>
+                        <notebook>
+                            <page string="銷售訂單">
+                                <field name="invoice_ids">
+                                    <tree editable="bottom">
+                                        <field name="sale_order_id"/>
+                                        <field name="customer"/>
+                                        <field name="confirmation_date"/>
+                                        <field name="sale_order_amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_account_invoice_paper">
+            <field name="name">紙本發票</field>
+            <field name="res_model">account.invoice.paper</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem action="action_account_invoice_paper" id="menu_action_account_invoice_paper" name="紙本發票" parent="account.menu_finance_receivables_documents" sequence="1"/>
+    </data>
+</odoo>

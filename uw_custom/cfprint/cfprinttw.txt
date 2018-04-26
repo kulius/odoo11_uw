@@ -1,0 +1,27 @@
+﻿一、
+使用康虎雲報表與odoo整合，生成json時，有時候會遇到字元串有換行
+或特殊字元導致生成的json格式錯誤時，可以按下面的方法解決：
+<!-- 替換掉字元串中的特殊字元 -->
+<t t-set="line_name" t-value="l.name.replace('\n','').encode('utf-8')"/>
+
+<!-- 再輸出替換後的字元串-->
+_tableOrderLines.Data.push(
+{
+    "line_name": "<t t-esc="line_name"/>",  //輸出訂單明細產品名稱
+});
+
+二、怎樣把報表模板保存在資料庫？
+1、從菜單 設置 -- 技術 -- 報告 -- 康虎雲報表 -- 模板 進入，把在客戶端設計好的模板上傳並保存到資料庫
+2、通過以下兩種方法在QWeb模板中取報表模板數據：
+/******************************* 康虎雲報表與ODOO整合時，模板調用方法 **********************************/
+/*從資料庫中獲取打印模板方法1（調用簡短方法）：*/
+var _data = {"template": "base64:<t t-esc="cf_template(user.env, '12345')" />", "ver": 4, "Copies": 1, "Duplex": 0, "Tables":[]};
+
+/*從資料庫中獲取打印模板方法2（直接查詢法）：*/
+var _data = {"template": "base64:<t t-esc="user.env['cf.template'].search([('templ_id', '=', '12345')], limit=1).template" />", "ver": 4, "Copies": 1, "Duplex": 0, "Tables":[]};
+
+
+
+康虎雲報表官網地址： http://www.khcloud.net
+
+
