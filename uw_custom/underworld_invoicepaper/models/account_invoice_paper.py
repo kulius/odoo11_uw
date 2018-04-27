@@ -109,4 +109,5 @@ class accountinvoiceinherit(models.Model):
         self.sale_order_id = False
         self.invoice_line_ids += new_lines
         self.env.context = dict(self.env.context, from_onechange_sale_order_id=True)
-        # self.sale_order_id.invoice_status = 'invoiced'
+        for line in self.sale_order_id:
+            line.invoice_status = 'invoiced'
