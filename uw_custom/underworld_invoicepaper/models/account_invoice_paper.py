@@ -27,20 +27,41 @@ class Accountinvoicepaper(models.Model):
 
 
 
-class accountinvoiceinherit(models.Model):
+class invoicefrommultisaleorder(models.Model):
     _inherit = "account.invoice"
 
     sale_order_id = fields.Many2one(comodel_name='sale.order', string='銷售訂單', domain=[('invoice_status', '=', 'to invoice')])
 
+    @api.model
+    def create(self, vals):
+        res_id = super(invoicefrommultisaleorder, self).create(vals)
+        r = []
+        res = self.env['sale.order']
+        for line in res_id.invoice_line_ids:
+            if line.origin not in r and res_id.origin:
+                res_id.origin += ' ' + line.origin
+                r.append(line.origin)
 
+            elif not res_id.origin:
+                res_id.origin = line.origin
+                r.append(line.origin)
+
+        for line in r:
+            res = self.env['sale.order'].search([('name', '=', line)])
+            for row in res:
+                row.invoice_status = 'invoiced'
+            # invoices = res.action_invoice_create(final=True)
+
+        return res_id
 
     @api.multi
-    def name_get(self):
-        result = []
-        for record in self:
-            name = "%s (%s)" % (record.name, record.partner_id.name)
-            result.append((record.id, name))
-        return result
+    def unlink(self):
+        for line in self:
+            for row in line.invoice_line_ids:
+                res = self.env['sale.order'].search([('name', '=', row.origin)])
+                if res.invoice_status == 'invoiced':
+                    res.invoice_status = 'to invoice'
+        return super(invoicefrommultisaleorder, self).unlink()
 
     @api.onchange('partner_id')
     def onchange_partner_id(self):
@@ -50,13 +71,7 @@ class accountinvoiceinherit(models.Model):
     @api.onchange('sale_order_id')
     def onechange_sale_order_id(self):
         r = []
-        if self.origin:
-            self.origin += self.sale_order_id.name
-        else:
-            self.origin = self.sale_order_id.name
-
-
-
+        result = {}
         new_lines = self.env['account.invoice.line']
         for line in self.sale_order_id.order_line:
             domain = {}
@@ -94,6 +109,8 @@ class accountinvoiceinherit(models.Model):
                 line.account_id = account.id
 
             r = {
+                'sale_order_id':self.sale_order_id.id,
+                'origin':self.sale_order_id.name,
                 'product_id': line.product_id.id,
                 'name': line.name,
                 'quantity': line.product_uom_qty,
@@ -106,8 +123,17 @@ class accountinvoiceinherit(models.Model):
             new_line = new_lines.new(r)
             new_lines += new_line
 
-        self.sale_order_id = False
+
         self.invoice_line_ids += new_lines
         self.env.context = dict(self.env.context, from_onechange_sale_order_id=True)
-        for line in self.sale_order_id:
-            line.invoice_status = 'invoiced'
+        self.sale_order_id = False
+        SO_ids = self.invoice_line_ids.mapped('origin')
+
+        result['domain'] = {'sale_order_id': [
+            ('partner_id', '=', self.partner_id.id),
+            ('invoice_status', '=', 'to invoice'),
+            ('origin', 'not in', SO_ids),
+        ]}
+        return result
+
+
