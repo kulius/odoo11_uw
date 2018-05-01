@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_report_cfprint_report_cfprint,report_cfprint.report_cfprint,model_report_cfprint_report_cfprint,,1,0,0,0

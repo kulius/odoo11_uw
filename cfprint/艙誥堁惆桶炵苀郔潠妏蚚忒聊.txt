@@ -1,0 +1,354 @@
+　　　　　　　　　　　　　　　　　　　　康虎云报表系统
+　　　　　　　　　　　　　　　　　　　　　 使用说明
+　　　　　　　　　　　　　　　　　　　　 （ver 1.3.7.0）
+
+一、概述：
+B/S应用系统的报表打印一直以来都是一个难题，以前常规的思路是通过在浏览器中安装ActiveX插件以获得直接驱动打印机的能力。
+但是，随着浏览器的发展，越来越多的浏览器厂商禁止安装ActiveX，以避免因ActiveX组件导致的各种安全问题。
+为解决B/S打印中的痛点，我工作室开发了本报表服务器，完美地解决了在浏览器端不用ActiveX而获得与C/S系统一样的打印能力。
+本报表系统不需要在浏览器安装任何插件，只需通过JavaScript即可实现报表精确打印以及打印过程免人工介入。
+-----------------
+康虎软件工作室
+网站：http://www.cfsoft.cf
+QQ：  360026606
+微信：360026606
+
+二、特点：
+1、高兼容：不需要在浏览器端和服务端安装任何插件，在浏览器插件被各大浏览器纷纷禁用的今天，无插件设计兼容绝大多数浏览器；
+2、免安装：软件即拷即用，不安装，不污染操作系统，让操作系统历久弥新； 
+3、可视化：可视化的模板设计器，通过拖拽即可完成模板设计； 
+4、高精度：实现精确到毫米的打印精度，对于一些格式复杂，要求精确打印的场合，可以很容易达到毫米级精度；
+5、易套打：可视化的模板设计器，在模板中加入一个票据格式的底图，可以很方便地实现套打，对于实现发票、快递面单、支票等打印毫无压力；
+6、功能强：从简单报表、主从报表到嵌套报表甚至交叉报表，均能轻松应对。还有一维二维条形码，甚至，还有逆天的脚本功能，只有想不到，没有做不到；
+7、自动化: 打印过程中全部自动化，无需象生成PDF、Word、Excel那样还需要人工再点打印；
+8、易部署：打印模板既可以部署在客户端（与 cfprint.exe 程序放在同一目录下），也支持部署在服务端随报表数据一起传到客户端；
+9、目标活：支持在数据文件中或模板中指定要输出的打印机，发票用针打、报表用激光打、小票用小票机，专机专打；
+
+
+三、使用前提条件：
+1、IE6以上版本、Chrome(谷歌浏览器)4.0以上版本、Firefox 4.0以上版本、Opera 11以上版本、Safari 5.0.2以上版本、iOS 4.2以上版本
+或使用Chrome内核、Firefox内核的浏览器均可直接使用本打印系统；
+2、在进行打印前，需要先设计好打印模板（模板设计器请见第五节）；
+3、打印数据必须Json的格式发送给打印服务器，并且数据必须满足指定的格式（见下文）；
+
+四、数据格式说明：
+下面以一个跨境电商快递面单数据为例解释一下数据各项的含义;
+
+{
+  "template": "waybill.fr3",    /*打印模板文件名。除了指定模板文件以外，还支持把模板嵌入到数据文件中，以实现在服务器端灵活使用打印模板，格式如下：*/
+                                /*"template": "base64:QTBBRTNEQTE3MkFFQjIzNEFERD<后面省略>" */
+
+  "ver": 4,                     /*数据模板文件版本*/
+  "Copies": 3,                  /*打印份数，支持指定打印份数。*/
+  "Duplex": 1,                  /*可选。是否双面打印，0：默认，不双面，1：垂直，2：水平，3：单面打印(simplex)。*/
+  "Printer": "priPrinter",      /*指定打印机，本系统支持在数据文件中指定打印机，也支持在打印模板中指定打印机*/
+  "Preview": 1,                 /*可选。是否预览，跟主界面上选择“预览”效果相同，取值为0：不预览，1：预览。*/
+  "PageNumbers": "",            /*可选。要打印的页码范围，同打印机的打印设置里的格式相同，例如："1,2,3"表示打印前3页， “2-5”:表示打印第2到5页，“1,2,4-8”表示打印第1、2、4到8页，专业版、企业版。*/
+  "PageTop": 1,                 /*可选。报表顶部边距，单位毫米。专业版、企业版。*/
+  "PageLeft": 1,                /*可选。报表左边距，单位毫米。专业版、企业版。*/
+  "PurePDF": 0,                 /*可选。以纯PDF方式打印PDF文件，0：否，1：是。主要是用于解决PDF转换成图片后再打印时条码扫描不灵敏的问题。以纯PDF打印模式下，无法把PDF与其他内容集成到一个页面上。专业版、企业版。*/ 
+  "PdfToImage": 0,              /*可选。打印PDF时，如果选择PurePDF，则可以指定不把PDF转换成图片，以提高打印速度，但如果不生成图片，则无法预览。专业版、企业版。*/ 
+	"taskId": "1234567",          /*可选。多个打印任务同时打印时，根据该id确定返回的是哪个打印任务。 */ 
+  
+  "Tables":[                    /*数据表数组*/
+    {
+      "Name": "Table1",         /*表名*/
+      "Cols": [                 /*字段定义*/
+        {
+          "type": "str",        /*字段类型，可选值：String,Str,Integer,Int,Smallint,Float,Long, Blob，*/
+                                /*对于图片、PDF等使用Blob类型，并把值进行Base64编码，并加前缀：*/
+                                /* "base64/pdf:" 字段值是PDF; "base64/jpg:" 字段值是jpg; "base64/png:" 字段值是png; "base64/gif:" 字段值是gif;  */
+          "size": 255,          /*字段长度*/
+          "name": "HAWB#",      /*字段名称，必须与打印模板中的打印项名称相同*/
+          "required": false     /*字段是否必填*/
+        },
+        { "type": "int", "size": 0, "name": "NO", "required": false },
+        { "type": "float", "size": 0, "name": "报关公司面单号", "required": false },
+        { "type": "integer", "size": 0, "name": "公司内部单号", "required": false },
+        { "type": "str", "size": 255, "name": "发件人", "required": false },
+        { "type": "str", "size": 255, "name": "发件人地址", "required": false },
+        { "type": "str", "size": 255, "name": "发件人电话", "required": false },
+        { "type": "str", "size": 255, "name": "发货国家", "required": false },
+        { "type": "str", "size": 255, "name": "收件人", "required": false },
+        { "type": "str", "size": 255, "name": "收件人地址", "required": false },
+        { "type": "str", "size": 255, "name": "收件人电话", "required": false },
+        { "type": "str", "size": 255, "name": "收货人证件号码", "required": false },
+        { "type": "str", "size": 255, "name": "收货省份", "required": false },
+        { "type": "float", "size": 0, "name": "总计费重量", "required": false },
+        { "type": "int", "size": 0, "name": "总件数", "required": false },
+        { "type": "float", "size": 0, "name": "申报总价（CNY）", "required": false },
+        { "type": "float", "size": 0, "name": "申报总价（JPY）", "required": false },
+        { "type": "int", "size": 0, "name": "件数1", "required": false },
+        { "type": "str", "size": 255, "name": "品名1", "required": false },
+        { "type": "float", "size": 0, "name": "单价1（JPY）", "required": false },
+        { "type": "str", "size": 255, "name": "单位1", "required": false },
+        { "type": "float", "size": 0, "name": "申报总价1（CNY）", "required": false },
+        { "type": "float", "size": 0, "name": "申报总价1（JPY）", "required": false },
+        { "type": "int", "size": 0, "name": "件数2", "required": false },
+        { "type": "str", "size": 255, "name": "品名2", "required": false },
+        { "type": "float", "size": 0, "name": "单价2（JPY）", "required": false },
+        { "type": "str", "size": 255, "name": "单位2", "required": false },
+        { "type": "float", "size": 0, "name": "申报总价2（CNY）", "required": false },
+        { "type": "float", "size": 0, "name": "申报总价2（JPY）", "required": false },
+        { "type": "AutoInc", "size": 0, "name": "ID", "required": false },
+        { "type": "blob", "size": 0, "name": "附件", "required": false }
+      ],
+
+      "Data": [                /*数据行定义，每一行含义见上面的字段定义*/
+        {
+          "HAWB#": "860014010055",
+          "NO": 1,
+          "报关公司面单号": 200303900791,
+          "公司内部单号": 730293,
+          "发件人": "NAKAGAWA SUMIRE 2",
+          "发件人地址": " 991-199-113,Kameido,Koto-ku,Tokyo",
+          "发件人电话": "03-3999-3999",
+          "发货国家": "日本",
+          "收件人": "张三丰",
+          "收件人地址": "上海市闵行区虹梅南路1660弄蔷薇八村99号9999室",
+          "收件人电话": "182-1234-8888",
+          "收货人证件号码": null,
+          "收货省份": null,
+          "总计费重量": 3.2,
+          "总件数": 13,
+          "申报总价（CNY）": null,
+          "申报总价（JPY）": null,
+          "件数1": 10,
+          "品名1": "纸尿片",
+          "单价1（JPY）": null,
+          "单位1": null,
+          "申报总价1（CNY）": null,
+          "申报总价1（JPY）": null,
+          "件数2": null,
+          "品名2": null,
+          "单价2（JPY）": null,
+          "单位2": null,
+          "申报总价2（CNY）": null,
+          "申报总价2（JPY）": null,
+          "ID": 1,
+          "附件": "base64/pdf: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IDI3OCAyNzgKMjc4IDI3OCAyNzggMjc4IDI3OCAyNzggMjc4IDI3OCAyNzggMjc4IDI3OCAyNzggMjc4IDI3OCAyNzggMjc4CjI3OCA1NTYgNTU2IDMzMyA1NTYgNTU2IDU1NiA1NTYgMjc4IDY2NyAyNzggMjc4IDI3OCAyNzggMjc4IDY2NwoyNzggNjY3IDI3OCAyNzggMjc4IDI3OCAyNzggNjY3IDI3OCA2NjcgMjc4IDY2NyAyNzggNjY3IDI3OCAyNzgKMjc4IDY2NyAyNzggNjY3IDU1MiAyNzggMjc4IDI3OCAyNzggNTU2IDI3OCA1NTYgMjc4IDI3OCAyNzggNjY3CjI3OCA2NjcgMjc4IDI3OCAyNzggNjY3IDI3OCA2NjcgMjc4IDY2NyAyNzggNjY3IDI3OCA2NjcgMjc4IDI3OF0KL0VuY29kaW5nL1dpbkFuc2lFbmNvZGluZwovRm9udERlc2NyaXB0b3IgMTEgMCBSCj4+CmVuZG9iagoxMSAwIG9iago8PAovVHlwZS9Gb250RGVzY3JpcHRvcgovRm9udE5hbWUgL0FyaWFsTVQKL0ZsYWdzIDMyCi9Gb250QkJveFstNjY1IC0zMjUgMjAwMCAxMDA2XQovU3RlbVYgOTUKL0l0YWxpY0FuZ2xlIDAKL0NhcEhlaWdodCA5MDUKL0FzY2VudCA5MDUKL0Rlc2NlbnQgLTIxMgo+PgplbmRvYmoKMyAwIG9iago8PAovVHlwZS9QYWdlcwovQ291bnQgMQovS2lkc1s0IDAgUl0KPj4KZW5kb2JqCjIgMCBvYmoKPDwKL1R5cGUvQ2F0YWxvZwovUGFnZXMgMyAwIFIKL1BhZ2VMYXlvdXQvU2luZ2xlUGFnZQovVmlld2VyUHJlZmVyZW5jZXMgMTIgMCBSCj4+CmVuZG9iagoxMiAwIG9iago8PAovVHlwZS9WaWV3ZXJQcmVmZXJlbmNlcwo+PgplbmRvYmoKeHJlZgowIDEzCjAwMDAwMDAwMDAgNjU1MzUgZg0KMDAwMDAwMDAxNiAwMDAwMCBuDQowMDAwMDA0MjEzIDAwMDAwIG4NCjAwMDAwMDQxNTggMDAwMDAgbg0KMDAwMDAwMDcxNiAwMDAwMCBuDQowMDAwMDAwMjQxIDAwMDAwIG4NCjAwMDAwMDA4NzIgMDAwMDAgbg0KMDAwMDAwMjkyNyAwMDAwMCBuDQowMDAwMDAxMjQ1IDAwMDAwIG4NCjAwMDAwMDEwNTUgMDAwMDAgbg0KMDAwMDAwMTU2MiAwMDAwMCBuDQowMDAwMDAzOTg5IDAwMDAwIG4NCjAwMDAwMDQzMTAgMDAwMDAgbg0KdHJhaWxlcgo8PAovU2l6ZSAxMwovSW5mbyAxIDAgUgovUm9vdCAyIDAgUgovSURbPDVBMkU0QzkzOTdENEU0RDE3NkIwOTBDRUU3OTMxMzRGPjw1QTJFNEM5Mzk3RDRFNEQxNzZCMDkwQ0VFNzkzMTM0Rj5dCj4+CnN0YXJ0eHJlZgo0MzU2CiUlRU9GCg==",
+        },
+        {
+          "HAWB#": "860014010035",
+          "NO": 2,
+          "报关公司面单号": 200303900789,
+          "公司内部单号": 730291,
+          "发件人": "NAKAGAWA SUMIRE",
+          "发件人地址": " 991-199-113,Kameido,Koto-ku,Tokyo",
+          "发件人电话": "03-3999-3999",
+          "发货国家": "日本",
+          "收件人": "张无忌",
+          "收件人地址": "上海市闵行区虹梅南路1660弄蔷薇八村88号8888室",
+          "收件人电话": "182-1234-8888",
+          "收货人证件号码": null,
+          "收货省份": null,
+          "总计费重量": 3.2,
+          "总件数": 13,
+          "申报总价（CNY）": null,
+          "申报总价（JPY）": null,
+          "件数1": 10,
+          "品名1": "纸尿片",
+          "单价1（JPY）": null,
+          "单位1": null,
+          "申报总价1（CNY）": null,
+          "申报总价1（JPY）": null,
+          "件数2": null,
+          "品名2": null,
+          "单价2（JPY）": null,
+          "单位2": null,
+          "申报总价2（CNY）": null,
+          "申报总价2（JPY）": null,
+          "ID": 2,
+          "附件":"base64/gif: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"
+        }
+      ]
+    },
+    {
+      "Name": "Table2",
+      "Cols": [
+        { "type": "int", "size": 0, "name": "NO", "required": false },
+        { "type": "float", "size": 0, "name": "订单编号", "required": false },
+        { "type": "integer", "size": 0, "name": "下单日期", "required": false },
+        { "type": "str", "size": 255, "name": "下单平台", "required": false }
+      ],
+      "Data": [
+        {
+          "NO": 1,
+          "订单编号": 200303900791,
+          "下单日期": "2017-01-20",
+          "下单平台": "天猫"
+        },
+        {
+          "NO": 2,
+          "订单编号": 200303900792,
+          "下单日期": "2017-01-20",
+          "下单平台": "京东"
+        }
+      ]
+    }
+  ]
+}
+
+
+五、调用示例：
+
+<!-- ★★★ 模式1 ★★★ -->
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>康虎云报表系统测试</title>
+</head>
+
+<body>
+  <div style="width: 100%;text-align:center;">
+    <h2>康虎云报表系统</h2>
+    <h3>打印测试（模式1）</h3>
+    <div>
+      <input type="button" id="btnPrint" value="打印" onClick="doSend(_reportData);" />
+    </div>
+  </div>
+  <div id="output"></div>
+</body>
+
+<script type="text/javascript">
+//定义数据脚本
+var _reportData = '{"template":"waybill.fr3","Cols":[{"type":"str","size":255,"name":"HAWB#","required":false},<这里省略1000字> ]}';
+
+//在浏览器控制台输出调试信息
+console.log("reportData = " + _reportData);
+</script>
+<script language="javascript" type="text/javascript" src="cfprint.min.js"></script>
+<script language="javascript" type="text/javascript" src="cfprint_ext.js"></script>
+<script language="javascript" type="text/javascript">
+/**下面四个参数必须放在myreport.js脚本后面，以覆盖myreport.js中的默认值**/
+var _delay_send = 1000;             //发送打印服务器前延时时长，-1则表示不自动打印
+var _delay_close = 1000;            //打印完成后关闭窗口的延时时长, -1则表示不关闭
+var cfprint_addr = "127.0.0.1";     //打印服务器监听地址
+var cfprint_port = 54321;           //打印服务器监听端口
+</script>
+</html>
+
+
+
+<!-- ★★★ 模式2 ★★★ -->
+<?php 
+//如果有php运行环境，只需把该文件扩展名改成 .php，然后上传到web目录即可在真实服务器上测试
+header("Access-Control-Allow-Origin: *");
+?>
+
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>康虎云报表系统测试</title>
+<style type="text/css">
+#output {font-size: 12px; background-color:#F0FFF0;}
+</style>
+</head>
+
+<body>
+  <div style="width: 100%;text-align:center;">
+    <h2>康虎云报表系统（Ver 1.3.0）</h2>
+    <h3>打印测试（模式2）</h3>
+    <div style="line-height: 1.5;">
+      <div style="width: 70%; text-align: left;">
+      <b>一、首先按下列步骤设置：</b><br/>
+      1、运行打印服务器；<br/>
+      2、按“停止”按钮停止服务；<br/>
+      3、打开“设置”区；<br/>
+      4、在“常用参数-->服务模式”中，选择“模式2”；<br/>
+      5、按“启动”按钮启动服务。
+      </div>
+      <div style="width: 70%; text-align: left;">
+      <b>二、按本页的“打印”按钮开始打印。</b><br/>
+      </div><br/>
+      <input type="button" id="btnPrint" value="打印" /><br/><br/>
+      
+      <div style="width: 70%; text-align: left; font-size: 12px;">
+        由于JavaScript在不同域名下访问会出现由来已久的跨域问题，所以正式部署到服务器使用时，要解决跨域问题。<br/>
+        对于IE8以上版本浏览器，只需增加一个reponse头：Access-Control-Allow-Origin即可，而对于php、jsp、asp/aspx等动态语言而言，增加一个response头是非常简单的事，例如：<br/>
+        <b>在php：</b><br/><span style="color: red;">
+&lt;?php <br/>
+header("Access-Control-Allow-Origin: *");<br/>
+?&gt;<br/>
+        </span>
+        <b>在jsp：</b><br/><span style="color: red;">
+&lt;%  <br/>
+response.setHeader("Access-Control-Allow-Origin", "*");  <br/>
+%&gt;<br/>
+        </span>
+        <b>在asp.net中：</b><br/><span style="color: red;">
+Response.AppendHeader("Access-Control-Allow-Origin", "*");
+        </span>，<br/>其他语言里，大家请自行搜索“ajax跨域”。而对于IE8以下的浏览器，大家可以自行搜索“IE6+Ajax+跨域”寻找解决办法吧，也可以联系我们帮助。
+      </div>
+    </div>
+  </div>
+  <div id="output"></div>
+</body>
+
+<!-- 引入模式2所需的javascript支持库 -->
+<script type="text/javascript" src="cfprint_mode2.min.js" charset="UTF-8"></script>
+
+<!-- 构造报表数据 -->
+<script type="text/javascript">
+var _reportData = '{"template":"waybill.fr3","ver":3, "Tables":[ {"Name":"Table1", "Cols":[{"type":"str","size":255,"name":"HAWB#","required":false},{"type":"int","size":0,"name":"NO","required":false},{"type":"float","size":0,"name":"报关公司面单号","required":false},{"type":"integer","size":0,"name":"公司内部单号","required":false},{"type":"str","size":255,"name":"发件人","required":false},{"type":"str","size":255,"name":"发件人地址","required":false},{"type":"str","size":255,"name":"发件人电话","required":false},{"type":"str","size":255,"name":"发货国家","required":false},{"type":"str","size":255,"name":"收件人","required":false},{"type":"str","size":255,"name":"收件人地址","required":false},{"type":"str","size":255,"name":"收件人电话","required":false},{"type":"str","size":255,"name":"收货人证件号码","required":false},{"type":"str","size":255,"name":"收货省份","required":false},{"type":"float","size":0,"name":"总计费重量","required":false},{"type":"int","size":0,"name":"总件数","required":false},{"type":"float","size":0,"name":"申报总价（CNY）","required":false},{"type":"float","size":0,"name":"申报总价（JPY）","required":false},{"type":"int","size":0,"name":"件数1","required":false},{"type":"str","size":255,"name":"品名1","required":false},{"type":"float","size":0,"name":"单价1（JPY）","required":false},{"type":"str","size":255,"name":"单位1","required":false},{"type":"float","size":0,"name":"申报总价1（CNY）","required":false},{"type":"float","size":0,"name":"申报总价1（JPY）","required":false},{"type":"int","size":0,"name":"件数2","required":false},{"type":"str","size":255,"name":"品名2","required":false},{"type":"float","size":0,"name":"单价2（JPY）","required":false},{"type":"str","size":255,"name":"单位2","required":false},{"type":"float","size":0,"name":"申报总价2（CNY）","required":false},{"type":"float","size":0,"name":"申报总价2（JPY）","required":false},{"type":"int","size":0,"name":"件数3","required":false},{"type":"str","size":255,"name":"品名3","required":false},{"type":"float","size":0,"name":"单价3（JPY）","required":false},{"type":"str","size":255,"name":"单位3","required":false},{"type":"float","size":0,"name":"申报总价3（CNY）","required":false},{"type":"float","size":0,"name":"申报总价3（JPY）","required":false},{"type":"int","size":0,"name":"件数4","required":false},{"type":"str","size":255,"name":"品名4","required":false},{"type":"float","size":0,"name":"单价4（JPY）","required":false},{"type":"str","size":255,"name":"单位4","required":false},{"type":"float","size":0,"name":"申报总价4（CNY）","required":false},{"type":"float","size":0,"name":"申报总价4（JPY）","required":false},{"type":"int","size":0,"name":"件数5","required":false},{"type":"str","size":255,"name":"品名5","required":false},{"type":"float","size":0,"name":"单价5（JPY）","required":false},{"type":"str","size":255,"name":"单位5","required":false},{"type":"float","size":0,"name":"申报总价5（CNY）","required":false},{"type":"float","size":0,"name":"申报总价5（JPY）","required":false},{"type":"str","size":255,"name":"参考号","required":false},{"type":"AutoInc","size":0,"name":"ID","required":false}],"Data":[{"公司内部单号":730293,"发货国家":"日本","单价1（JPY）":null,"申报总价2（JPY）":null,"单价4（JPY）":null,"申报总价2（CNY）":null,"申报总价5（JPY）":null,"报关公司面单号":200303900791,"申报总价5（CNY）":null,"收货人证件号码":null,"申报总价1（JPY）":null,"单价3（JPY）":null,"申报总价1（CNY）":null,"申报总价4（JPY）":null,"申报总价4（CNY）":null,"收件人电话":"182-1758-9999","收件人地址":"上海市闵行区虹梅南路1660弄蔷薇八村139号502室","HAWB#":"860014010055","发件人电话":"03-3684-9999","发件人地址":" 1-1-13,Kameido,Koto-ku,Tokyo","NO":3,"ID":3,"单价2（JPY）":null,"申报总价3（JPY）":null,"单价5（JPY）":null,"申报总价3（CNY）":null,"收货省份":null,"申报总价（JPY）":null,"申报总价（CNY）":null,"总计费重量":3.20,"收件人":"张三丰2","总件数":13,"品名5":null,"品名4":null,"品名3":null,"品名2":null,"品名1":"纸尿片","参考号":null,"发件人":"NAKAGAWA SUMIRE 2","单位5":null,"单位4":null,"单位3":null,"单位2":null,"单位1":null,"件数5":null,"件数4":null,"件数3":3,"件数2":null,"件数1":10},{"公司内部单号":730291,"发货国家":"日本","单价1（JPY）":null,"申报总价2（JPY）":null,"单价4（JPY）":null,"申报总价2（CNY）":null,"申报总价5（JPY）":null,"报关公司面单号":200303900789,"申报总价5（CNY）":null,"收货人证件号码":null,"申报总价1（JPY）":null,"单价3（JPY）":null,"申报总价1（CNY）":null,"申报总价4（JPY）":null,"申报总价4（CNY）":null,"收件人电话":"182-1758-9999","收件人地址":"上海市闵行区虹梅南路1660弄蔷薇八村139号502室","HAWB#":"860014010035","发件人电话":"03-3684-9999","发件人地址":" 1-1-13,Kameido,Koto-ku,Tokyo","NO":1,"ID":1,"单价2（JPY）":null,"申报总价3（JPY）":null,"单价5（JPY）":null,"申报总价3（CNY）":null,"收货省份":null,"申报总价（JPY）":null,"申报总价（CNY）":null,"总计费重量":3.20,"收件人":"张三丰","总件数":13,"品名5":null,"品名4":null,"品名3":null,"品名2":null,"品名1":"纸尿片","参考号":null,"发件人":"NAKAGAWA SUMIRE","单位5":null,"单位4":null,"单位3":null,"单位2":null,"单位1":null,"件数5":null,"件数4":null,"件数3":3,"件数2":null,"件数1":10},{"公司内部单号":730292,"发货国家":"日本","单价1（JPY）":null,"申报总价2（JPY）":null,"单价4（JPY）":null,"申报总价2（CNY）":null,"申报总价5（JPY）":null,"报关公司面单号":200303900790,"申报总价5（CNY）":null,"收货人证件号码":null,"申报总价1（JPY）":null,"单价3（JPY）":null,"申报总价1（CNY）":null,"申报总价4（JPY）":null,"申报总价4（CNY）":null,"收件人电话":"182-1758-9999","收件人地址":"上海市闵行区虹梅南路1660弄蔷薇八村139号502室","HAWB#":"860014010045","发件人电话":"03-3684-9999","发件人地址":" 1-1-13,Kameido,Koto-ku,Tokyo","NO":2,"ID":2,"单价2（JPY）":null,"申报总价3（JPY）":null,"单价5（JPY）":null,"申报总价3（CNY）":null,"收货省份":null,"申报总价（JPY）":null,"申报总价（CNY）":null,"总计费重量":3.20,"收件人":"张无忌","总件数":13,"品名5":null,"品名4":null,"品名3":null,"品名2":null,"品名1":"纸尿片","参考号":null,"发件人":"NAKAGAWA SUMIRE 1","单位5":null,"单位4":null,"单位3":null,"单位2":null,"单位1":null,"件数5":null,"件数4":null,"件数3":3,"件数2":null,"件数1":10}]}]}';
+if(window.console) console.log("reportData = " + _reportData);
+</script>
+
+<!-- 设置服务器参数 -->
+<script language="javascript" type="text/javascript">
+var cfprint_addr = "127.0.0.1";  //打印服务器监听地址
+var cfprint_port = 54321;        //打印服务器监听端口
+var _url = "http://"+cfprint_addr+":"+cfprint_port;
+</script>
+
+<!-- 编写回调函数用以处理服务器返回的数据 -->
+<script type="text/javascript">
+/**
+ * 参数：
+ * readyState: XMLHttpRequest的状态
+ * httpStatus: 服务端返回的http状态
+ * responseText: 服务端返回的内容
+ */
+var callbackSuccess = function(readyState, httpStatus, responseText){
+  if (httpStatus === 200) {
+    //{"result": 1, "message": "打印完成"}
+    var response = CFPrint.parseJSON(responseText);
+    alert(response.message+", 状态码["+response.result+"]");
+  }else{
+    alert('打印失败，HTTP状态代码是：'+httpStatus);
+  }
+}
+
+/**
+ * 参数：
+ * message: 错误信息
+ */
+var callbackFailed = function(message){ 
+  alert('发送打印任务出错: ' + message);
+}
+</script>
+
+<!-- 调用发送打印请求功能  -->
+<script type="text/javascript">
+(function(){
+document.getElementById("btnPrint").onclick = function() {
+  CFPrint.outputid = "output";  //指定调试信息输出div的id
+  CFPrint.SendRequest(_url, _reportData, callbackSuccess, callbackFailed);  //发送打印请求
+};
+})();
+</script>
+</html>
+
+六、模板设计器（重要！重要！！，好多朋友都找不到设计器入口）
+在主界面上，双击右下角的“设计”两个字，即可打开模板设计工具箱，在工具箱有三个按钮和一个大文本框。三个按钮的作用分别是：
+设计：以大文本框中的json数据为数据源，打开模板设计器窗口；
+预览：以大文本框中的json数据为数据源，预览当前所用模板的打印效果；
+打印：以大文本框中的json数据为数据源，向打印机输出当前所用模板生成的报表；
+
+以后将会有详细的模板设计教程发布，如果您遇到紧急的难题，请向作者咨询。
+
+===========================
+康虎软件工作室
+网站：http://www.cfsoft.cf
+QQ：  360026606
+微信：360026606

@@ -1,0 +1,3 @@
+请先运行cfprint.exe，然后进入test目录，用浏览器打开printtest.html进行测试。 
+ 
+要学习如何编写打印数据json，请查看printtest.html源码。 

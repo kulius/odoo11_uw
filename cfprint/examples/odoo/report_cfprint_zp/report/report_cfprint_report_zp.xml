@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+#    康虎云报表演示模块
+#     ver 1.2.2
+#
+#    Author: 康虎软件工作室(CFSoft Studio)
+#    Version: 1.0
+#    Create Date: 2017.02.06
+#
+#    Copyright (C) 2016-2017 康虎软件工作室 (<http://www.cfsoft.cf>).
+#    QQ： 360026606  微信： 360026606
+#
+# ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+-->
+<openerp>
+    <data>
+        <!-- 定义报表时，report_type必须设置为qweb-html，设置为qweb-pdf不会打印 -->
+        <report
+            string="打印支票"
+            id="action_report_object_review"
+            model="account.voucher"
+            report_type="qweb-html"
+            name="report_cfprint_zp.report_object_review_zp"
+            file="report_cfprint_zp.report_object_review_zp"
+        />
+
+
+        <template id="report_object_review_document_zp">
+            <t t-foreach="docs" t-as="o">
+                <div></div>
+                <div class="page">
+                    <div class="row">
+                        <h3>Title</h3>
+                        <div>报表内容</div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_object_review_zp">
+            <!--
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <div></div>
+                </t>
+            </t>
+            -->
+
+            <div id="output"></div>
+
+            <script type="text/javascript" src="/report_cfprint_zp/static/src/js/cfprint.min.js"></script>
+            <script type="text/javascript" src="/report_cfprint_zp/static/src/js/myreport.js"></script>
+
+            <script type="text/javascript">
+                var _reportData = '{"template": "cfprint_odoo_check_demo.fr3", "ver": 3, "Tables":[ {"name": "Table1", ';
+                _reportData +='"Cols": [ '
+                +' {"type":"str","size":255,"name":"partner_id","required": false}, '
+                +' {"type": "str", "size": 10, "name": "amount", "required": false}, '
+                +' {"type": "str", "size": 255, "name": "narration", "required": false}, '
+                +' {"type": "str", "size": 10, "name": "dx_year", "required": false}, '
+                +' {"type": "str", "size": 10, "name": "dx_month", "required": false}, '
+                +' {"type": "str", "size": 10, "name": "dx_day", "required": false}, '
+                +' {"type": "str", "size": 10, "name": "dx_amount", "required": false}, '
+                +' {"type": "str", "size": 10, "name": "r_amount", "required": false}, '
+                +' ],'
+                +' "Data": ['
+
+                <t t-foreach="docs" t-as="o">
+                    /*以下是生成不同类型字段的示例*/
+                    /*<span t-field="o.partner_id" />*/
+                    /*<span t-field="o.partner_id" t-field-options="{&quot;widget&quot;: &quot;many2oneraw&quot;}"/>*/
+                    /*<t t-esc="o.create_date" />*/
+                    /*<t t-esc="time.strftime('%Y-%m-%d',time.strptime(o.create_date,'%Y-%m-%d %H:%M:%S'))"/>*/
+
+                   _reportData +=
+                    '{'
+                    +\'partner_id\': \'<span t-field="o.partner_id"/>\', '
+                    +' \'amount\': 0\, '
+                    +' \'narration\': \'<t t-esc="o.narration" />\', '
+                    +' \'dx_year\': \'\', '
+                    +' \'dx_month\': \'\', '
+                    +' \'dx_day\': \'\', '
+                    +' \'dx_amount\': \'\', '
+                    +' \'r_amount\': \'\''
+                    +'}, ';
+                </t>
+                _reportData += '], }'
+                +' ]}';
+                _reportData = _reportData.removeHTMLTag();
+                console.log("reportData = " + _reportData);
+            </script>
+        </template>
+
+    </data>
+
+</openerp>
