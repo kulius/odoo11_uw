@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="open_account_wizard_form" model="ir.ui.view">
+            <field name="name">open_account_wizard_form</field>
+            <field name="model">open.account.wizard</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <field name="oa_date"/>
+                    </group>
+                    <footer>
+                        <button string="確定" type="object" class="oe_highlight" name="filtered_account_invoice"/>
+                        <button string="取消" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="open_account_wizard_action" name="月結發票" res_model="open.account.wizard"
+                    view_mode="form" target="new" multi="False"/>
+
+        <menuitem action="open_account_wizard_action" id="open_account_wizard_menu" parent="account.menu_finance_payables_documents" sequence="2"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="alltop_account_invoice_form" model="ir.ui.view">
+            <field name="name">alltop_account_invoice_form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_invoice_sent']" position="before">
+                    <button name="delete_invoice" string="刪除發票" type="object" states="cancel"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="got_invoice_name"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="alltop_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">alltop_invoice_supplier_form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_invoice_draft']" position="after">
+                    <button name="delete_invoice" string="刪除發票" type="object" states="cancel"/>
+                </xpath>
+                <xpath expr="//field[@name='reference']" position="after">
+                    <field name="got_invoice_name"/>
+                </xpath>
+            </field>
+        </record>
+
+         <record id="alltop_account_payment_form" model="ir.ui.view">
+            <field name="name">alltop_account_invoice_form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='post']" position="after">
+                    <button name="clean_invoice_name" states="draft" string="刪除支付" type="object"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_type']" position="before">
+                    <field name="got_invoice_name"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
