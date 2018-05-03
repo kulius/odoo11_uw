@@ -1,170 +1,228 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* account_invoice_merge
+#	* account_invoice_merge_group
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-26 02:50+0000\n"
-"PO-Revision-Date: 2016-02-26 11:01+0800\n"
-"Last-Translator: JasonWu <jason@solidfocus.com.tw>\n"
+"POT-Creation-Date: 2018-05-03 07:48+0000\n"
+"PO-Revision-Date: 2018-05-03 07:48+0000\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 1.5.4\n"
 
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
-msgid ""
-"* Invoice lines are exactly the same except for the product,quantity and unit"
-msgstr "* 發票收據的明細行必須依據 產品、數量、單位相同"
+#. module: account_invoice_merge_group
+#: model:ir.ui.view,arch_db:account_invoice_merge_group.account_invoice_form_merge
+#: model:ir.ui.view,arch_db:account_invoice_merge_group.account_invoice_supplier_form_merge
+msgid "(合併明細行)"
+msgstr "(合併明細行)"
 
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
-msgid ""
-"* Invoices are have same company, partner, address, currency, journal, "
-"salesman, account, type"
-msgstr "* 發票收據都具有同一個公司，合夥人，地址，貨幣，帳簿，銷售員，帳戶類型"
-
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
-msgid "* Invoices are in draft"
-msgstr "* 發票收據必須是在草稿狀態下"
-
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
-msgid "* Invoices belong to the same partner"
-msgstr "* 發票收據必須是屬於同一個合作的業務夥伴"
-
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
+#. module: account_invoice_merge_group
+#: model:ir.ui.view,arch_db:account_invoice_merge_group.view_invoice_merge
 msgid "Are you sure you want to merge these invoices ?"
-msgstr "您確定要合併這些選擇的發票收據嗎"
+msgstr "您確定要合併這些選擇的發票收據嗎?"
 
-#. module: account_invoice_merge
-#: code:addons/account_invoice_merge/wizard/invoice_merge.py:49
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:30
 #, python-format
 msgid "At least one of the selected invoices is %s!"
 msgstr "至少選擇其中一筆發票收據 %s!"
 
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
+#. module: account_invoice_merge_group
+#: selection:account.journal,group_method:0
+msgid "By Account"
+msgstr "By Account"
+
+#. module: account_invoice_merge_group
+#: selection:account.journal,group_method:0
+msgid "By Product"
+msgstr "By Product"
+
+#. module: account_invoice_merge_group
+#: model:ir.ui.view,arch_db:account_invoice_merge_group.view_invoice_merge
 msgid "Cancel"
 msgstr "取消"
 
-#. module: account_invoice_merge
-#: field:invoice.merge,create_uid:0
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge_create_uid
 msgid "Created by"
-msgstr "建立者"
+msgstr "創建人"
 
-#. module: account_invoice_merge
-#: field:invoice.merge,create_date:0
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge_create_date
 msgid "Created on"
-msgstr "建立在"
+msgstr "創建時間"
 
-#. module: account_invoice_merge
-#: field:invoice.merge,id:0
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge_display_name
+msgid "Display Name"
+msgstr "顯示名稱"
+
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_account_journal_group_method
+msgid "Group by"
+msgstr "分組"
+
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge_id
 msgid "ID"
 msgstr "ID"
 
-#. module: account_invoice_merge
-#: model:ir.model,name:account_invoice_merge.model_account_invoice
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,help:account_invoice_merge_group.field_account_journal_group_method
+msgid "If you select 'By Product', the account move lines generated when you validate an invoice will be grouped by product, account, analytic account and tax code. If you select 'By Account', they will be grouped by account, analytic account and tax code, without taking into account the product."
+msgstr "If you select 'By Product', the account move lines generated when you validate an invoice will be grouped by product, account, analytic account and tax code. If you select 'By Account', they will be grouped by account, analytic account and tax code, without taking into account the product."
+
+#. module: account_invoice_merge_group
+#: model:ir.model,name:account_invoice_merge_group.model_account_invoice
 msgid "Invoice"
 msgstr "發票"
 
-#. module: account_invoice_merge
-#: field:invoice.merge,date_invoice:0
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge_date_invoice
 msgid "Invoice Date"
 msgstr "發票日期"
 
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
-msgid "Invoices will only be merged if:"
-msgstr "發票收據才會被合併，如果:"
+#. module: account_invoice_merge_group
+#: model:ir.model,name:account_invoice_merge_group.model_account_journal
+msgid "Journal"
+msgstr "日記賬"
 
-#. module: account_invoice_merge
-#: field:invoice.merge,keep_references:0
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge_keep_references
 msgid "Keep references from original invoices"
 msgstr "從原來的發票收據引用參考"
 
-#. module: account_invoice_merge
-#: field:invoice.merge,write_uid:0
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge___last_update
+msgid "Last Modified on"
+msgstr "最後修改時間"
+
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge_write_uid
 msgid "Last Updated by"
 msgstr "最後更新者"
 
-#. module: account_invoice_merge
-#: field:invoice.merge,write_date:0
+#. module: account_invoice_merge_group
+#: model:ir.model.fields,field_description:account_invoice_merge_group.field_invoice_merge_write_date
 msgid "Last Updated on"
-msgstr "最後更新在"
+msgstr "最後更新時間"
 
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
-msgid "Lines will only be merged if:"
-msgstr "明細行資料將被更新，如果:"
-
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
+#. module: account_invoice_merge_group
+#: model:ir.ui.view,arch_db:account_invoice_merge_group.view_invoice_merge
 msgid "Merge Invoices"
 msgstr "合併發票收據"
 
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
-#: model:ir.actions.act_window,name:account_invoice_merge.action_view_invoice_merge
-#: model:ir.model,name:account_invoice_merge.model_invoice_merge
+#. module: account_invoice_merge_group
+#: model:ir.actions.act_window,name:account_invoice_merge_group.action_view_invoice_merge
+#: model:ir.model,name:account_invoice_merge_group.model_invoice_merge
+#: model:ir.ui.view,arch_db:account_invoice_merge_group.view_invoice_merge
 msgid "Merge Partner Invoice"
 msgstr "合併相同業務夥伴的發票收據"
 
-#. module: account_invoice_merge
-#: code:addons/account_invoice_merge/wizard/invoice_merge.py:56
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:37
 #, python-format
 msgid "Not all invoices are at the same company!"
 msgstr "這些全部的發票收據不是同一間公司！"
 
-#. module: account_invoice_merge
-#: code:addons/account_invoice_merge/wizard/invoice_merge.py:65
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:46
 #, python-format
 msgid "Not all invoices are at the same currency!"
 msgstr "這些全部的發票收據不是相同的幣別!"
 
-#. module: account_invoice_merge
-#: code:addons/account_invoice_merge/wizard/invoice_merge.py:68
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:49
 #, python-format
 msgid "Not all invoices are at the same journal!"
 msgstr "這些全部的發票收據不是相同的帳簿（如銷售、採購）!"
 
-#. module: account_invoice_merge
-#: code:addons/account_invoice_merge/wizard/invoice_merge.py:59
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:40
 #, python-format
 msgid "Not all invoices are for the same partner!"
 msgstr "這些全部的發票收據不是相同的業務夥伴!"
 
-#. module: account_invoice_merge
-#: code:addons/account_invoice_merge/wizard/invoice_merge.py:62
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:43
 #, python-format
 msgid "Not all invoices are of the same type!"
 msgstr "這些全部的發票收據不是相同的類型!"
 
-#. module: account_invoice_merge
-#: code:addons/account_invoice_merge/wizard/invoice_merge.py:53
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:34
 #, python-format
 msgid "Not all invoices use the same account!"
 msgstr "這些全部的發票收據不是相同的財務科目!"
 
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
-msgid "Please note that:"
-msgstr "請記錄在這:"
+#. module: account_invoice_merge_group
+#: model:ir.ui.view,arch_db:account_invoice_merge_group.view_invoice_merge
+msgid "Please note that:<br/><br/>\n"
+"Invoices will only be merged if:<br/>\n"
+"* Invoices are in draft<br/>\n"
+"* Invoices belong to the same partner<br/>\n"
+"* Invoices are have same company, partner, address, currency, journal, salesman, account, type<br/><br/>\n"
+"Lines will only be merged if:<br/>\n"
+"* Invoice lines are exactly the same except for the product,quantity and unit<br/>"
+msgstr "請注意：<br/><br/>\n"
+"                        只有在以下情況下才能合併發票：<br/>\n"
+"                        * 發票處於”草稿“狀態。<br/>\n"
+"                        * 發票屬於同一夥伴。<br/>\n"
+"                        * 發票具有相同的公司，合作夥伴，地址，\n"
+"                        貨幣，期刊，銷售員，賬戶和類型<br/><br/>\n"
+"                        明細將只在以下情況下合併：\n"
+"                        * 發票明細完全相同，\n"
+"                        產品，數量和單位<br/>"
 
-#. module: account_invoice_merge
-#: code:addons/account_invoice_merge/wizard/invoice_merge.py:40
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:21
 #, python-format
 msgid "Please select multiple invoice to merge in the list view."
-msgstr "請在樹系視圖上選擇多筆發票收據."
+msgstr "請在樹系視圖上選擇多筆發票收據"
 
-#. module: account_invoice_merge
-#: view:invoice.merge:account_invoice_merge.view_invoice_merge
+#. module: account_invoice_merge_group
+#: model:ir.ui.view,arch_db:account_invoice_merge_group.view_invoice_merge
 msgid "or"
 msgstr "或"
+
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:95
+#, python-format
+msgid "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ä¸ªä¾åºåæå®¢æ·ï¼ "
+msgstr "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ä¸ªä¾åºåæå®¢æ·ï¼ "
+
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:103
+#, python-format
+msgid "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ä¸ªåå½ï¼ "
+msgstr "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ä¸ªåå½ï¼ "
+
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:99
+#, python-format
+msgid "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ä¸ªç§ç®ï¼ "
+msgstr "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ä¸ªç§ç®ï¼ "
+
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:111
+#, python-format
+msgid "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ä¸ªç±»åï¼ "
+msgstr "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ä¸ªç±»åï¼ "
+
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:107
+#, python-format
+msgid "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ç§è´§å¸ï¼ "
+msgstr "è¦åå¹¶çåç¥¨å¿é¡»æ¯åä¸ç§è´§å¸ï¼ "
+
+#. module: account_invoice_merge_group
+#: code:addons/account_invoice_merge_group/wizard/invoice_merge.py:91
+#, python-format
+msgid "è¦åå¹¶çåç¥¨å¿é¡»æ¯èç¨¿ç¶æï¼"
+msgstr "è¦åå¹¶çåç¥¨å¿é¡»æ¯èç¨¿ç¶æï¼"
+
