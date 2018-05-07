@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="send_warehouse" model="stock.warehouse">
+            <field name="name">寄倉</field>
+            <field name="code">寄倉code</field>
+        </record>
+    </data>
+</odoo>

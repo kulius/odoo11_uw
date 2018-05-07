@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="send_stock_main_out_menu" name="寄倉出貨" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="send_stock_main_action"/>
+        <menuitem id="send_stock_main_pick_menu" name="寄倉調撥" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="send_stock_main_action"/>
+        <menuitem id="send_stock_main_in_menu" name="寄倉換料" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="send_stock_main_action"/>
+    </data>
+</odoo>
