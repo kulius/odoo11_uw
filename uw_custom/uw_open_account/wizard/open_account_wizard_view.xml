@@ -20,7 +20,7 @@
         <act_window id="open_account_wizard_action" name="月結發票" res_model="open.account.wizard"
                     view_mode="form" target="new" multi="False"/>
 
-        <menuitem action="open_account_wizard_action" id="open_account_wizard_menu" parent="account.menu_finance_payables_documents" sequence="2"/>
+        <menuitem action="open_account_wizard_action" id="open_account_wizard_menu" parent="account.account_reports_management_menu" sequence="2"/>
 
     </data>
 </odoo>
