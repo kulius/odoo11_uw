@@ -2,27 +2,26 @@
 from odoo import models, api,fields
 
 
-class SendStockMain(models.Model):
-    _inherit = 'stock.picking'
+class SendStockLine(models.Model):
+    _name = 'send.stock.line'
 
-    location_dest_id = fields.Many2one(readonly=False,states={})
+    name = fields.Char(related='product_id.name')
+    send_date = fields.Date(string='寄倉時間')
+    order_id = fields.Many2one(comodel_name='sale.order', string='訂單來源')
+    partner_id = fields.Many2one(comodel_name='res.partner', string='客戶')
+    product_id = fields.Many2one(comodel_name='product.product', string='產品')
+    origin_qty = fields.Float(string='初始數量')
+    used_qty = fields.Float(string='出貨數量', compute='compute_send_qty', store=True)
+    remain_qty = fields.Float(string='剩餘數量', compute='compute_send_qty', store=True)
+    order_line_ids = fields.One2many(comodel_name='sale.order.line', inverse_name='send_id')
 
+    @api.depends('order_line_ids')
+    def compute_send_qty(self):
+        for line in self:
+            sum = 0
+            for row in line.order_line_ids:
+                a = row.product_uom_qty
+                sum += a
 
-# class SendStockMain(models.Model):
-#     _name = 'send.stock.main'
-#
-#     name = fields.Char(string='參考')
-#     partner_id = fields.Many2one(comodel_name='res.partner', string='業務夥伴')
-#     location_sou_id = fields.Many2one(comodel_name='stock.location', string='來源位置')
-#     location_des_id = fields.Many2one(comodel_name='stock.location', string='目的位置')
-#     scheduled_date = fields.Date(string='預定交貨日期')
-#     move_lines = fields.One2many(comodel_name='send.stock.line', inverse_name='send_id')
-#     state = fields.Selection(selection=[('draft', '草稿'), ('assigned', '就緒'), ('done', '完成')])
-#
-#
-# class SendStockLine(models.Model):
-#     _name = 'send.stock.line'
-#
-#     send_id = fields.Many2one(comodel_name='send.stock.main', string='源主檔')
-#     product_id = fields.Many2one(comodel_name='product.product', string='產品')
-#     qty = fields.Float(string='數量')
+            line.used_qty = sum
+            line.remain_qty = line.origin_qty - sum

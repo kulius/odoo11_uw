@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <menuitem id="send_stock_root" name="寄倉" sequence="7"/>
+        <menuitem id="send_stock_categ" name="寄倉功能" parent="send_stock_root"/>
+        <menuitem id="send_stock_menu"
+                  name="寄倉明細"
+                  parent="send_stock_categ"
+                  action="send_stock_line_action"/>
 
-        <menuitem id="send_stock_main_out_menu" name="寄倉出貨" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="send_stock_main_action"/>
-        <menuitem id="send_stock_main_pick_menu" name="寄倉調撥" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="send_stock_main_action"/>
-        <menuitem id="send_stock_main_in_menu" name="寄倉換料" parent="stock.menu_stock_warehouse_mgmt" sequence="5" action="send_stock_main_action"/>
+        <menuitem id="send_stock_sale_menu"
+                  action="send_stock_order_action"
+                  name="寄倉報價單"
+                  parent="sale.sale_order_menu"
+                  sequence="2"/>
+        <menuitem id="send_stock_sale_menu2"
+                  action="send_stock_order_action2"
+                  name="寄倉銷售訂單"
+                  parent="sale.sale_order_menu"
+                  sequence="2"/>
+        <menuitem id="send_stock_sale_menu3"
+                  action="send_stock_order_action3"
+                  name="寄倉出庫單"
+                  parent="sale.sale_order_menu"
+                  sequence="2"/>
     </data>
 </odoo>

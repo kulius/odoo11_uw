@@ -7,8 +7,62 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='partner_id']" position="after">
-                    <field name="is_send"/>
+                    <field name="is_send" attrs="{'invisible': [('is_send_out', '=', True)]}"/>
+                    <field name="is_send_out" attrs="{'invisible': [('is_send', '=', True)]}"/>
                 </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <field name="send_id" attrs="{'invisible': [('parent.is_send_out', '=', 0)]}"/>
+                    <field name="send_id_qty" attrs="{'invisible': [('parent.is_send_out', '=', 0)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="send_stock_order_action" model="ir.actions.act_window">
+            <field name="name">寄倉報價單</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_id" ref="sale.view_quotation_tree"/>
+            <field name="domain">[('is_send', '=', True)]</field>
+            <field name="context">{'default_is_send': True}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="send_stock_order_action2" model="ir.actions.act_window">
+            <field name="name">寄倉銷售訂單</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_is_send': True}</field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel')),('is_send', '=', True)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="send_stock_order_action3" model="ir.actions.act_window">
+            <field name="name">寄倉出庫單</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_is_send_out': True}</field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel')),('is_send_out', '=', True)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
             </field>
         </record>
     </data>
