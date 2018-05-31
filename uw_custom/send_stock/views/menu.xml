@@ -8,16 +8,8 @@
                   parent="send_stock_categ"
                   action="send_stock_line_action"/>
 
-        <menuitem id="send_stock_sale_menu"
-                  action="send_stock_order_action"
-                  name="寄倉報價單"
-                  parent="sale.sale_order_menu"
-                  sequence="2"/>
-        <menuitem id="send_stock_sale_menu2"
-                  action="send_stock_order_action2"
-                  name="寄倉銷售訂單"
-                  parent="sale.sale_order_menu"
-                  sequence="2"/>
+
+
         <menuitem id="send_stock_sale_menu3"
                   action="send_stock_order_action3"
                   name="寄倉出庫單"

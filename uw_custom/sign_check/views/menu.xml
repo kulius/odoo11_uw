@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="sign_check_root" name="簽口" sequence="7"/>
+        <menuitem id="sign_check_categ" name="簽口功能" parent="sign_check_root"/>
+        <menuitem id="sign_check_menu"
+                  name="簽口明細"
+                  parent="sign_check_categ"
+                  action="sign_mian_action_view"/>
+
+        <menuitem id="sign_check_sale_menu"
+                  action="sign_check_sale_action"
+                  name="簽口出貨單"
+                  parent="sale.sale_order_menu"
+                  sequence="2"/>
+
+    </data>
+</odoo>

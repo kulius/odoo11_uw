@@ -3,20 +3,21 @@
     <data>
         <record id="send_stock_line_form" model="ir.ui.view">
             <field name="name">send_stock_line_form</field>
-            <field name="model">send.stock.line</field>
+            <field name="model">send.stock.main</field>
             <field name="arch" type="xml">
                 <form string="">
                     <sheet>
                         <group>
-                            <field name="send_date"/>
-                            <field name="name"/>
-                            <field name="order_id"/>
                             <field name="partner_id"/>
                             <field name="product_id"/>
-                            <field name="origin_qty"/>
-                            <field name="used_qty"/>
-                            <field name="remain_qty"/>
-                            <field name="order_line_ids"/>
+                            <field name="last_total"/>
+                            <field name="send_ids">
+                                <tree>
+                                    <field name="create_date"/>
+                                    <field name="order_id"/>
+                                    <field name="operate_qty"/>
+                                </tree>
+                            </field>
                         </group>
                     </sheet>
                 </form>
@@ -25,25 +26,21 @@
 
         <record id="send_stock_line_tree" model="ir.ui.view">
             <field name="name">send_stock_line_tree</field>
-            <field name="model">send.stock.line</field>
+            <field name="model">send.stock.main</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="send_date"/>
-                    <field name="name"/>
-                    <field name="order_id"/>
                     <field name="partner_id"/>
                     <field name="product_id"/>
-                    <field name="origin_qty"/>
-                    <field name="used_qty"/>
-                    <field name="remain_qty"/>
+                    <field name="last_total"/>
+                    <field name="send_ids"/>
                 </tree>
             </field>
         </record>
 
         <record id="send_stock_line_action" model="ir.actions.act_window">
-            <field name="name">寄倉明細</field>
+            <field name="name">寄倉主檔</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">send.stock.line</field>
+            <field name="res_model">send.stock.main</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
