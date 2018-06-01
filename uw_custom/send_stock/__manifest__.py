@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 {
     'name': "寄倉模組",
+    'summary': """
+    寄倉模組初版
+    """,
     'version': '1.0',
     'depends': [
         'stock',
         'sale'
     ],
-    'author': "< OdooTW  Peter Wu>",
-    'website': "http://www.odootw.com/",
+    'author': "Alltop Chia-Ming Chang",
+    'website': "http://blog.alltop.com.tw/alltopco/",
     'description': """
     寄倉模組初版
     """,

@@ -22,7 +22,7 @@
                 </xpath>
 
                 <xpath expr="//field[@name='order_line']" position="after">
-                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total" attrs="{'invisible': [('is_sign_pay', '=', False),('is_sign', '=', False)]}">
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total" attrs="{'invisible': [('is_sign_pay', '=', False)]}">
                         <field name="partner_sign_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         <field name="partner_cost_toal" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
@@ -49,7 +49,5 @@
               </p>
             </field>
         </record>
-
-        odooa
     </data>
 </odoo>

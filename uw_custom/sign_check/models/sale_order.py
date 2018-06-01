@@ -34,7 +34,7 @@ class SignCheckSaleOrder(models.Model):
             self.mutex_sign = False
 
 
-    @api.depends('order_line')
+    @api.depends('order_line', 'partner_id')
     def compute_sign_used(self):
         for line in self:
             partner = self.env['sign.main'].search([('partner_id', '=', self.partner_id.id)])
