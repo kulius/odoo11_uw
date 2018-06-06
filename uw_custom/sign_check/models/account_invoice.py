@@ -7,13 +7,7 @@ class AccountInvoiceSignCheck(models.Model):
     _inherit = 'account.invoice'
 
     sign_check = fields.Boolean(string='簽口收款')
-    sign_pay = fields.Boolean(string='簽口付款', compute='compute_sign_pay')
-
-    @api.depends('name')
-    def compute_sign_pay(self):
-        order = self.env['sale.order'].search([('name','like',self.origin)])
-        if len(order):
-            self.sign_pay = True
+    sign_pay = fields.Boolean(string='簽口付款')
 
 
 class AccountPaymentSignCheck(models.Model):

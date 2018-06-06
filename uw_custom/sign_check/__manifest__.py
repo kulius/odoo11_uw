@@ -19,6 +19,7 @@
         'views/sign_main_view.xml',
         'views/account_invoice_view.xml',
         'views/sale_order_view.xml',
+        'views/sign_invoice_view.xml',
         'views/menu.xml'
     ],
     'demo': [],

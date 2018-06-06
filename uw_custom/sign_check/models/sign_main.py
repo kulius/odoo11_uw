@@ -24,5 +24,6 @@ class SignMainLine(models.Model):
 
     sign_id = fields.Many2one(comodel_name='sign.main')
     sale_from = fields.Many2one(comodel_name='sale.order', string='來源訂單')
+    sign_from = fields.Many2one(comodel_name='sign.invoice', string='來源簽口結帳')
     price = fields.Integer(string='金額')
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sign_invoice_form_view" model="ir.ui.view">
+            <field name="name">sign_invoice_form_view</field>
+            <field name="model">sign.invoice</field>
+            <field name="arch" type="xml">
+                <form string="" class="o_sale_order">
+                    <sheet>
+                        <group>
+                            <field name="created_invoice"/>
+                            <field name="partner_id"/>
+                            <field name="partner_sign_price"/>
+                        </group>
+                        <group>
+                            <field name="check_invoice_ids"/>
+                        <group class="oe_subtotal_footer oe_right" name="check_total">
+                            <field name="check_invoice_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <field name="sign_invoice_line_ids">
+                            <tree editable="bottom">
+                                <field name="product_id"/>
+                                <field name="price"/>
+                                <field name="sign_price"/>
+                            </tree>
+                        </field>
+                        <group class="oe_subtotal_footer oe_right" name="check_total">
+                            <field name="sign_invoice_ids_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="less_sign_price"/>
+                            </div>
+                            <field name="less_sign_price" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sign_invoice_tree_view" model="ir.ui.view">
+            <field name="name">sign_invoice_tree_view</field>
+            <field name="model">sign.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="partner_id"/>
+                    <field name="partner_sign_price"/>
+                    <field name="check_invoice_total"/>
+                    <field name="sign_invoice_ids_total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sign_invoice_action_view" model="ir.actions.act_window">
+            <field name="name">簽口結帳</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sign.invoice</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

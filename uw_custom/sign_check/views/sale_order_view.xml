@@ -9,7 +9,7 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="mutex_sign" invisible="1"/>
                     <field name="is_sign" attrs="{'invisible': [('mutex_sign', '=', True),('is_sign', '!=',True)]}"/>
-                    <field name="is_sign_pay" invisible="context.get('no_hide', True)" attrs="{'invisible': [('mutex_sign', '=', True),('is_sign_pay', '!=',True)]}"/>
+                    <field name="is_sign_pay" readonly="1" invisible="context.get('no_hide', True)" attrs="{'invisible': [('mutex_sign', '=', True),('is_sign_pay', '!=',True)]}"/>
                 </xpath>
 
                  <!--將send_stock的寄倉跟寄倉出貨設成互斥控制-->
@@ -19,6 +19,7 @@
                 <xpath expr="//field[@name='is_send_out']" position="attributes">
                     <attribute name="attrs">{'invisible': [('mutex_sign', '=', True),('is_send_out', '!=',True)]}</attribute>
                     <attribute name="invisible">context.get('no_hide', True)</attribute>
+                    <attribute name="readonly">1</attribute>
                 </xpath>
 
                 <xpath expr="//field[@name='order_line']" position="after">
