@@ -20,6 +20,8 @@
         'views/account_invoice_view.xml',
         'views/sale_order_view.xml',
         'views/sign_invoice_view.xml',
+        'views/res_partner_view.xml',
+        'views/product_template_view.xml',
         'views/menu.xml'
     ],
     'demo': [],

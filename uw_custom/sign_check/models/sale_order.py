@@ -98,5 +98,5 @@ class SaleOrderLineSignCheck(models.Model):
         if self.order_id.is_sign:
             return {
                 'domain': {
-                    'product_id': [('name', 'like', '簽口')],
+                    'product_id': [('is_sign_product', '=', True)],
                 }}

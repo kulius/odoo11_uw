@@ -6,14 +6,16 @@ class SignInvoice(models.Model):
     _name = 'sign.invoice'
 
     name = fields.Char(string='名稱')
-    partner_id = fields.Many2one(comodel_name='res.partner', string='客戶名稱')
+    partner_id = fields.Many2one(comodel_name='res.partner', string='客戶名稱', domain=[('is_month_account', '=', True)])
     partner_sign_price = fields.Float(string='當前剩餘簽口')
     check_invoice_ids = fields.Many2many(comodel_name='account.invoice', string='勾選的發票')
     check_invoice_total = fields.Float(string='發票金額', compute='compute_total_price')
     sign_invoice_line_ids = fields.One2many(comodel_name='sign.invoice.line', inverse_name='sign_id', string='簽口明細')
-    sign_invoice_ids_total = fields.Float(string='簽口金額', compute='compute_total_price')
+    sign_invoice_ids_total = fields.Float(string='簽口價值', compute='compute_total_price')
+    sign_invoice_pay = fields.Float(string='簽口應付', compute='compute_total_price')
     less_sign_price = fields.Float(string='剩餘簽口金額', compute='compute_total_price')
     created_invoice = fields.Many2one(comodel_name='account.invoice', string='建立的發票', readonly=True)
+    state = fields.Selection(selection=[('draft', '草稿'), ('invoiced', '已開發票')], default='draft')
 
     def write_sign_line(self):
         partner = self.env['sign.main'].search([('partner_id', '=', self.partner_id.id)])
@@ -66,14 +68,17 @@ class SignInvoice(models.Model):
         for line in self:
             check_sum = 0.0
             sign_sum = 0.0
+            pay_sum = 0.0
             for row in line.check_invoice_ids:
                 check_sum += row.amount_total
             for sign_row in line.sign_invoice_line_ids:
                 sign_sum += sign_row.sign_price
+                pay_sum +=sign_row.price
 
             line.check_invoice_total = check_sum
             line.sign_invoice_ids_total = sign_sum
             line.less_sign_price = line.partner_sign_price - check_sum + sign_sum
+            line.sign_invoice_pay = pay_sum
 
 
 class SignInvoiceLine(models.Model):
@@ -83,6 +88,10 @@ class SignInvoiceLine(models.Model):
     product_id = fields.Many2one(comodel_name='product.product', string='簽口產品', domain=[('name', 'like', '簽口')])
     price = fields.Float(string='支付金額')
     sign_price = fields.Float(string='簽口價值', compute='cmpute_sign_price')
+    is_paid = fields.Boolean(string='已收款')
+
+    def pay_the_paid(self):
+        self.is_paid = True
 
     @api.depends('price')
     def cmpute_sign_price(self):

@@ -8,9 +8,6 @@ class SendStockSaleStock(models.Model):
 
     is_send = fields.Boolean(string='寄倉')
     is_send_out = fields.Boolean(string='寄倉出貨')
-    new_order_line = fields.One2many('sale.order.line', 'order_id', string='寄倉銷售明細', states={'cancel': [('readonly', True)], 'done': [('readonly', True)]}, copy=True, auto_join=True)
-
-
 
     @api.multi
     def action_confirm(self):
@@ -59,8 +56,16 @@ class SendStockSaleStockLine(models.Model):
     _inherit = 'sale.order.line'
 
     send_id = fields.Many2one(comodel_name='send.stock.main', string='寄倉商品')
-
+    show_send_qty = fields.Boolean(compute='compute_boolean', store=True)
     send_id_qty = fields.Float(string='當前寄倉數量')
+
+    @api.depends('order_id.is_send', 'order_id.is_send_out')
+    def compute_boolean(self):
+        for line in self:
+            if line.order_id.is_send is True or line.order_id.is_send_out is True:
+                line.show_send_qty = True
+            else:
+                line.show_send_qty = False
 
     @api.multi
     @api.onchange('product_id')
