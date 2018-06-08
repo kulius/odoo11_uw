@@ -15,7 +15,7 @@
         <menuitem id="sign_invoice_batch_menu"
                   name="簽口批次結帳"
                   parent="sign_check_categ"
-                  action="sign_invoice_action_view"/>
+                  action="sign_batch_action_view"/>
 
         <menuitem id="sign_check_sale_menu"
                   action="sign_check_sale_action"

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sign_batch_form_view" model="ir.ui.view">
+            <field name="name">sign_batch_form_view</field>
+            <field name="model">sign.batch</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                         <div class="oe_button_box" name="button_box">
+                            <button name="todo"
+                                    string="批次開票並登記付款(未完成)"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                            </button>
+                        </div>
+                        <separator string="名稱"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <label for="date_from" string="時間區間"/>
+                            <div>
+                                <field name="date_from" class="oe_inline"/> - <field name="date_to" class="oe_inline"/>
+                            </div>
+                        </group>
+                        <separator string="簽口明細"/>
+                        <field name="sign_main_ids">
+                            <tree>
+                                <field name="batch_id" invisible="1"/>
+                                <field name="partner_id"/>
+                                <field name="invoice_amount"/>
+                                <field name="sign_amount"/>
+                                <field name="invoice_ids"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sign_batch_tree_view" model="ir.ui.view">
+            <field name="name">sign_batch_tree_view</field>
+            <field name="model">sign.batch</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sign_batch_action_view" model="ir.actions.act_window">
+            <field name="name">簽口批次結帳</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sign.batch</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

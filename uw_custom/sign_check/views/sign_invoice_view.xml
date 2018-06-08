@@ -10,21 +10,45 @@
                         <field name="state" widget="statusbar" statusbar_visible="draft,invoiced"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="open_and_pay_invoice"
+                                    string="開簽口發票並登記付款"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    attrs="{'invisible': [('state', '=', 'invoiced')]}">
+                                <!--<field name="invoice_count" widget="statinfo" string="Invoices"/>-->
+                            </button>
+                        </div>
                         <group>
                             <field name="created_invoice"/>
                             <field name="partner_id"/>
                             <field name="partner_sign_price"/>
                         </group>
                         <group>
-                            <field name="check_invoice_ids"/>
+                            <field name="check_invoice_ids">
+                                <tree>
+
+                                    <field name="partner_id"/>
+                                    <field name="date_invoice"/>
+                                    <field name="number"/>
+                                    <field name="origin"/>
+                                    <field name="amount_total_signed"/>
+                                    <field name="residual_signed"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
                         <group class="oe_subtotal_footer oe_right" name="check_total">
                             <field name="check_invoice_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                         </group>
                         <field name="sign_invoice_line_ids">
                             <tree editable="bottom">
+                                <field name="sign_id" invisible="1"/>
                                 <field name="is_paid"/>
                                 <field name="product_id"/>
                                 <field name="price"/>
+                                <field name="cash_discount"/>
+                                <field name="sign_discount"/>
                                 <field name="sign_price"/>
                                 <button name="pay_the_paid" string="已收款" type="object" attrs="{'invisible': [('is_paid','=',True)]}"/>
                             </tree>
