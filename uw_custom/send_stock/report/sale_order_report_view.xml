@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- string:是报表在菜单上的文字。 -->
+        <!-- name:要写template的xmlid，8版本不能省略模块名。9待实验。 -->
+        <report id="action_sale_order_report"
+                model="sale.order"
+                string="報價單/出貨單列印"
+                report_type="qweb-html"
+                name="send_stock.template_sale_order_report"/>
+
+        <template id="template_sale_order_report">
+            <t t-call="cfprint.html_container">
+                <h1 class="col-12 text-center">報價單/出貨單</h1>
+                <h3 class="col-12 text-center">正在列印輸出中，請稍候...</h3>
+                <script type="text/javascript">
+                var cfprint_addr = "127.0.0.1";   //列印伺服器監聽地址
+                var _delay_close = -1;          //列印完成後關閉視窗的延時時長(毫秒), -1則表示不關閉
+
+                /**定義主表結構**/
+                var _tableOrder = {
+                    "Name": "SaleOrder",
+                    "Cols":[
+                        { "type": "str", "size": 10, "name": "訂單編號", "required": false },
+                        { "type": "str", "size": 50, "name": "客戶名稱", "required": false },
+                        { "type": "str", "size": 50, "name": "收件地址", "required": false },
+                        { "type": "str", "size": 20, "name": "聯絡電話", "required": false },
+                        { "type": "str", "size": 10, "name": "交貨日期", "required": false },
+                        { "type": "str", "size": 10, "name": "銷售員", "required": false },
+                    ],
+                    "Data":[ ]
+                };
+
+                /**定義從表結構**/
+                var _tableSaleOrderLines = {
+                    "Name": "SaleOrderLines",
+                    "Cols":[
+                        { "type": "str", "size": 10, "name": "代碼", "required": false },
+                        { "type": "str", "size": 10, "name": "單價", "required": false },
+                        { "type": "str", "size": 10, "name": "合計金額", "required": false },
+                        { "type": "str", "size": 50, "name": "產品名稱", "required": false },
+                        { "type": "str", "size": 10, "name": "計量單位", "required": false },
+                        { "type": "str", "size": 10, "name": "產品數量", "required": false },
+                    ],
+                    "Data":[ ]
+                };
+                <t t-foreach="docs" t-as="o">
+                    /*增加主表記錄*/
+                    _tableOrder.Data.push(
+                    {
+                        "訂單編號":"<t t-esc="o['name']"/>",
+                        "銷售員":"<t t-esc="o['seller']"/>",
+                        "客戶名稱":"<t t-esc="o['partner_id']"/>",
+                        "收件地址":"<t t-esc="o['street']"/>",
+                        "聯絡電話":"<t t-esc="o['mobile']"/>",
+                        "交貨日期":"<t t-esc="o['order_create_date']"/>",
+                    });
+                    <t t-foreach="o['order_line']" t-as="lines">
+                        _tableSaleOrderLines.Data.push(
+                        {
+                            "代碼":"<t t-esc="lines['default_code']"/>",
+                            "單價":"<t t-esc="lines['price_unit']"/>",
+                            "合計金額":"<t t-esc="lines['price_subtotal']"/>",
+                            "產品名稱":"<t t-esc="lines['product_id']"/>",
+                            "產品數量":"<t t-esc="lines['qty']"/>",
+                            "計量單位":"<t t-esc="lines['product_uom']"/>",
+                        });
+                    </t>
+                </t>
+                var _data = {"template": "sale_order_documents.fr3", "ver": 4, "Copies": 1, "Duplex": 0, "Preview": 1, "Tables":[]};
+                _data["Tables"].push(_tableOrder);
+                _data["Tables"].push(_tableSaleOrderLines);
+                var _reportData = JSON.stringify(_data);  //轉成json字元串
+
+                console.log(_reportData);
+                //生成資料之後，在cfprint_ext.js中會自動呼叫進行列印
+                </script>
+            </t>
+        </template>
+    </data>
+</odoo>

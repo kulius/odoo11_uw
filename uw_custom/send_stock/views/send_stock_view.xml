@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="send_stock_line_form" model="ir.ui.view">
+        <record id="send_stock_main_form" model="ir.ui.view">
             <field name="name">send_stock_line_form</field>
             <field name="model">send.stock.main</field>
             <field name="arch" type="xml">
@@ -24,7 +24,7 @@
             </field>
         </record>
 
-        <record id="send_stock_line_tree" model="ir.ui.view">
+        <record id="send_stock_main_tree" model="ir.ui.view">
             <field name="name">send_stock_line_tree</field>
             <field name="model">send.stock.main</field>
             <field name="arch" type="xml">
@@ -37,7 +37,18 @@
             </field>
         </record>
 
-        <record id="send_stock_line_action" model="ir.actions.act_window">
+        <record id="send_stock_main_search" model="ir.ui.view">
+            <field name="name">send_stock_main_search</field>
+            <field name="model">send.stock.main</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+                    <field name="product_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="send_stock_main_action" model="ir.actions.act_window">
             <field name="name">寄倉主檔</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">send.stock.main</field>

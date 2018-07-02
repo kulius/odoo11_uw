@@ -8,6 +8,19 @@ class SendStockSaleStock(models.Model):
 
     is_send = fields.Boolean(string='寄倉')
     is_send_out = fields.Boolean(string='寄倉出貨')
+    order_create_date = fields.Date(string='訂單成立日', default=fields.Date.today)
+    avg_price = fields.Float(digits=(10, 2), compute='compute_avg_price', string='平均單價')
+
+    def compute_avg_price(self):
+        for line in self:
+            price_sum = 0
+            qty_sum = 0
+            for row in line.order_line:
+                price_sum += row.price_unit * row.product_uom_qty
+                qty_sum += row.product_uom_qty
+
+            if qty_sum != 0:
+                line.avg_price = price_sum/qty_sum
 
     @api.multi
     def action_confirm(self):
@@ -49,32 +62,21 @@ class SendStockSaleStock(models.Model):
                     })
                 else:
                     raise UserError("錯誤!! 商品 %s 沒有寄倉庫存" % line.product_id.name)
+
+        pick = self.picking_ids
+        pick.force_assign()
+        for line in pick.move_lines:
+            line.write({
+                'quantity_done': line.product_uom_qty
+            })
+        pick.button_validate()
         return res
 
 
 class SendStockSaleStockLine(models.Model):
     _inherit = 'sale.order.line'
 
-    send_id = fields.Many2one(comodel_name='send.stock.main', string='寄倉商品')
-    show_send_qty = fields.Boolean(compute='compute_boolean', store=True)
-    send_id_qty = fields.Float(string='當前寄倉數量')
+    product_wholesale_price = fields.Float(related='product_id.wholesale_price', readonly=True)
 
-    @api.depends('order_id.is_send', 'order_id.is_send_out')
-    def compute_boolean(self):
-        for line in self:
-            if line.order_id.is_send is True or line.order_id.is_send_out is True:
-                line.show_send_qty = True
-            else:
-                line.show_send_qty = False
-
-    @api.multi
-    @api.onchange('product_id')
-    def product_id_change(self):
-        res = super(SendStockSaleStockLine, self).product_id_change()
-        send_id = self.env['send.stock.main'].search([('product_id', '=', self.product_id.id), ('partner_id', '=', self.order_partner_id.id)])
-        if len(send_id):
-            self.send_id = send_id.id
-            self.send_id_qty = send_id.last_total
-        return res
 
 

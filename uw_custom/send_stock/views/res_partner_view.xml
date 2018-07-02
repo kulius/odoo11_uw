@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="send_stock_res_partner_form_view" model="ir.ui.view">
+            <field name="name">send_stock_res_partner_form_view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='cus_kind']" position="after">
+                    <field name="full_name"/>
+                    <field name="saler_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="send_stock_res_partner_tree_view" model="ir.ui.view">
+            <field name="name">send_stock_res_partner_tree_view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="street"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

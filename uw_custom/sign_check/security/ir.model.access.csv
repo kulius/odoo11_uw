@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sign_invoice,access_sign_invoice,model_sign_invoice,,1,1,1,1
+access_sign_invoice_line,access_sign_invoice_line,model_sign_invoice_line,,1,1,1,1
+access_sign_batch,access_sign_batch,model_sign_batch,,1,1,1,1
+access_sign_batch_line,access_sign_batch_line,model_sign_batch_line,,1,1,1,1
+access_sign_main,access_sign_main,model_sign_main,,1,1,1,1
+access_sign_main_line,access_sign_main_line,model_sign_main_line,,1,1,1,1
