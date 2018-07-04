@@ -6,7 +6,7 @@ class SignInvoice(models.Model):
     _name = 'sign.invoice'
 
     name = fields.Char(string='名稱')
-    partner_id = fields.Many2one(comodel_name='res.partner', string='客戶名稱', domain=[('is_month_account', '=', True)])
+    partner_id = fields.Many2one(comodel_name='res.partner', string='客戶名稱')
     partner_sign_price = fields.Float(string='當前剩餘簽口')
     check_invoice_ids = fields.Many2many(comodel_name='account.invoice', string='勾選的發票')
     check_invoice_total = fields.Float(string='發票金額', compute='compute_total_price')
@@ -58,23 +58,25 @@ class SignInvoice(models.Model):
         journal = self.env['account.journal'].search([('name', 'like', '簽口')], limit=1)
         self.created_invoice.pay_and_reconcile(journal, self.created_invoice.amount_total)
         self.state = 'invoiced'
+        for line in self.check_invoice_ids:
+            line.action_invoice_open()
 
     @api.onchange('partner_id')
     def comput_set(self):
         partner = self.env['sign.main'].search([('partner_id', '=', self.partner_id.id)])
         if len(partner) > 0:
             self.partner_sign_price = partner.last_total
-            invoice_ids = self.env['account.invoice'].search([('partner_id', '=', self.partner_id.id),('state', '=', 'draft'),('sign_check', '=', True)])
-            data =[]
-            for line in invoice_ids:
-                data.append([4, line.id])
+        invoice_ids = self.env['account.invoice'].search([('partner_id', '=', self.partner_id.id),('state', '=', 'draft')])
+        data =[]
+        for line in invoice_ids:
+            data.append([4, line.id])
 
-            self.check_invoice_ids = data
-            return {'domain':
-                        {'check_invoice_ids':
-                             [('partner_id', '=', self.partner_id.id), ('state', '=', 'draft'), ('sign_check', '=', True)]
-                         }
-                    }
+        self.check_invoice_ids = data
+        return {'domain':
+                    {'check_invoice_ids':
+                         [('partner_id', '=', self.partner_id.id), ('state', '=', 'draft')]
+                     }
+                }
     @api.depends('check_invoice_ids', 'sign_invoice_line_ids')
     def compute_total_price(self):
         for line in self:
@@ -101,7 +103,7 @@ class SignInvoiceLine(models.Model):
     price = fields.Float(string='支付金額')
     sign_price = fields.Float(string='簽口價值', compute='cmpute_sign_price')
     sign_discount = fields.Float(string='簽口優惠', compute='cmpute_sign_price')
-    cash_discount = fields.Float(string='現金優惠', compute='cmpute_sign_price')
+    cash_discount = fields.Float(string='現金優惠')
     is_paid = fields.Boolean(string='已收款')
 
     def pay_the_paid(self):
@@ -122,7 +124,10 @@ class SignInvoiceLine(models.Model):
                     times2 += 1
             line.sign_price = line.price + 10000*times1 + 3000*times2
             line.sign_discount = 10000*times1 + 3000*times2
-            line.cash_discount = line.price * 0.02
+
+    @api.onchange('cash_discount')
+    def set_price(self):
+        self.price = self.price - self.cash_discount
 
 
 class SignBatch(models.Model):

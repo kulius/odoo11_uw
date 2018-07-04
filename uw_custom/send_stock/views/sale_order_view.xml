@@ -9,6 +9,7 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="is_send" attrs="{'invisible': [('is_send_out', '=', True)]}"/>
                     <field name="is_send_out" attrs="{'invisible': [('is_send', '=', True)]}"/>
+                    <field name="driver_id"/>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
                     <field name="product_wholesale_price"/>

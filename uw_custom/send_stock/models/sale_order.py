@@ -11,6 +11,8 @@ class SendStockSaleStock(models.Model):
     order_create_date = fields.Date(string='訂單成立日', default=fields.Date.today)
     order_price_ids = fields.One2many(comodel_name='order.price', inverse_name='order_id')
 
+    driver_id = fields.Many2one(comodel_name='res.users', string='出貨司機')
+
     @api.onchange('order_line')
     def write_to_price_line(self):
         res = []
