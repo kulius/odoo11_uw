@@ -27,7 +27,7 @@
                         </group>
                         <separator string="簽口明細"/>
                         <field name="sign_main_ids">
-                            <tree>
+                            <tree editable="bottom">
                                 <field name="batch_id" invisible="1"/>
                                 <field name="partner_id"/>
                                 <field name="invoice_amount"/>

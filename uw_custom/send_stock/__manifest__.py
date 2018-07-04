@@ -19,6 +19,7 @@
         'views/send_stock_view.xml',
         'views/sale_order_view.xml',
         'views/res_partner_view.xml',
+        'wizard/stock_out_view.xml',
         'views/menu.xml',
         'report/sale_order_report_view.xml'
     ],

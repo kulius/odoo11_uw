@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_out_form" model="ir.ui.view">
+            <field name="name">stock_out_form</field>
+            <field name="model">stock.out</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <separator
+                            string="寄倉出貨作業"
+                            colspan="4" />
+                    </group>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="out_ids" nolable="1">
+                            <tree editable="bottom">
+                                <!--<field name="send_stock_id" invisible="1"/>-->
+                                <field name="product_id"/>
+                                <field name="last_total"/>
+                                <field name="out_qty"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="create_stock_out" string="產生寄倉出貨單"
+                            type="object" class="oe_highlight" />
+                        或
+                        <button string="取消" class="oe_link"
+                            special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="寄倉出貨" res_model="stock.out"
+            src_model="send.stock.main" view_mode="form" target="new"
+            multi="True" key2="client_action_multi" id="stock_out_action" />
+    </data>
+</odoo>

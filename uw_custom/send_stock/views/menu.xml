@@ -8,10 +8,15 @@
                   parent="send_stock_categ"
                   action="send_stock_main_action"
                   sequence="2"/>
+        <menuitem id="send_stock_out_menu"
+                  name="寄倉出貨產生"
+                  parent="send_stock_categ"
+                  action="send_stock_out_action"
+                  sequence="3"/>
         <menuitem id="send_stock_sale_menu3"
                   action="send_stock_order_action3"
                   name="寄倉出庫單"
                   parent="send_stock_categ"
-                  sequence="2"/>
+                  sequence="4"/>
     </data>
 </odoo>

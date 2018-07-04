@@ -44,6 +44,7 @@
                 <search>
                     <field name="partner_id"/>
                     <field name="product_id"/>
+                    <filter string="依客戶" name="group_partner" domain="[]" context="{'group_by':'partner_id'}"/>
                 </search>
             </field>
         </record>
@@ -52,6 +53,21 @@
             <field name="name">寄倉主檔</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">send.stock.main</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="send_stock_out_action" model="ir.actions.act_window">
+            <field name="name">寄倉出貨產生</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">send.stock.main</field>
+            <field name="context">{'search_default_group_partner':1}</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">

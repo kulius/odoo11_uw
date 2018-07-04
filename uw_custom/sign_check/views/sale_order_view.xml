@@ -36,7 +36,7 @@
         </record>
 
         <record id="sign_check_sale_action" model="ir.actions.act_window">
-            <field name="name">簽口出貨</field>
+            <field name="name">簽口訂單</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale.order</field>
             <field name="view_mode">tree,form</field>

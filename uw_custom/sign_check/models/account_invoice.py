@@ -10,6 +10,8 @@ class AccountInvoiceSignCheck(models.Model):
     sign_pay = fields.Boolean(string='簽口付款')
 
 
+
+
 class AccountPaymentSignCheck(models.Model):
     _inherit = 'account.payment'
 

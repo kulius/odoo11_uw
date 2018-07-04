@@ -19,7 +19,7 @@
 
         <menuitem id="sign_check_sale_menu"
                   action="sign_check_sale_action"
-                  name="簽口出貨單"
+                  name="簽口訂單"
                   parent="sale.sale_order_menu"
                   sequence="2"/>
 
