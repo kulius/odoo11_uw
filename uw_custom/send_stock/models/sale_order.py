@@ -9,38 +9,38 @@ class SendStockSaleStock(models.Model):
     is_send = fields.Boolean(string='寄倉')
     is_send_out = fields.Boolean(string='寄倉出貨')
     order_create_date = fields.Date(string='訂單成立日', default=fields.Date.today)
-    order_price_ids = fields.One2many(comodel_name='order.price', inverse_name='order_id')
+    order_price_ids = fields.One2many(comodel_name='order.price', inverse_name='order_id', compute='write_to_price_line',store=True)
 
     driver_id = fields.Many2one(comodel_name='res.users', string='出貨司機')
 
-    @api.onchange('order_line')
+    @api.depends('order_line')
     def write_to_price_line(self):
-        res = []
-        price_res = []
-        for line in self.order_line.filtered(lambda r:r.product_uom_qty>0):
-            exist = False
+
+        for line in self:
+            res = []
+            price_res = []
+            for row in line.order_line.filtered(lambda r: r.product_uom_qty > 0):
+                exist = False
+                for obj in res:
+                    if obj == row.product_id.id:
+                        exist = True
+                if exist == False:
+                    res.append(row.product_id.id)
+
             for row in res:
-                if row == line.product_id.id:
-                    exist = True
-            if exist == False:
-                res.append(line.product_id.id)
-        for line in res:
-            price = 0
-            sum = 0
-            for row in self.order_line.filtered(lambda r:r.product_id.id == line):
-                price += row.price_total
-                sum += row.product_uom_qty
+                price = 0
+                sum = 0
+                for obj in self.order_line.filtered(lambda r:r.product_id.id == row):
+                    price += obj.price_total
+                    sum += obj.product_uom_qty
 
-            price_res.append([0,0,{
-                'product_id': line,
-                'count': sum,
-                'total_price': price,
-                'avg_price': price / sum
-            }])
-        self.update({
-            'order_price_ids': price_res
-        })
-
+                price_res.append([0,0,{
+                    'product_id': row,
+                    'count': sum,
+                    'total_price': price,
+                    'avg_price': price / sum
+                }])
+                line.order_price_ids = price_res
 
     @api.multi
     def action_confirm(self):
@@ -96,8 +96,43 @@ class SendStockSaleStock(models.Model):
 class SendStockSaleStockLine(models.Model):
     _inherit = 'sale.order.line'
 
-    product_wholesale_price = fields.Float(related='product_id.wholesale_price', readonly=True)
+    product_wholesale_price = fields.Float(related='product_id.list_price', readonly=True, string='產品定價')
+    # real_price_unit = fields.Float(digits=(10, 2), compute='compute_real_price_unit', string='實際單價')
 
+    # 同時計算明細同商品的平均單價，但只能取得最新價格放到當前紀錄(one2many內)，未存檔前商品平均價格可能未會不一致，但存檔後相同商品單價會一致
+    # @api.depends('product_uom_qty', 'price_unit')
+    # def compute_real_price_unit(self):
+    #     if len(self) == 1:
+    #         order_line = self.order_id.order_line
+    #         print(order_line.filtered(lambda r:r.product_id.id == self.product_id.id))
+    #         sum = 0
+    #         price = 0
+    #         for line in order_line.filtered(lambda r:r.product_id.id == self.product_id.id):
+    #             sum += line.product_uom_qty
+    #             price += line.price_total
+    #             print(sum,price)
+    #         for line in order_line.filtered(lambda r:r.product_id.id == self.product_id.id):
+    #             if sum != 0:
+    #                 line.update({
+    #                     'real_price_unit': price / sum
+    #                 })
+    #     else:
+    #         print('多筆self' + str(len(self)))
+    #         res = []
+    #         for line in self:
+    #             if line.product_id.id not in res:
+    #                 res.append(line.product_id.id)
+    #         for line in res:
+    #             sum = 0.0
+    #             price = 0.0
+    #             for row in self:
+    #                 if row.product_id.id == line:
+    #                     sum += row.product_uom_qty
+    #                     price += row.price_total
+    #
+    #             for row in self:
+    #                 if row.product_id.id == line:
+    #                     row.real_price_unit = price / sum
 
 
 class SendStockPriceLine(models.Model):
@@ -105,7 +140,9 @@ class SendStockPriceLine(models.Model):
 
     order_id = fields.Many2one(comodel_name='sale.order')
     product_id = fields.Many2one(comodel_name='product.product', string='產品')
-    count = fields.Float(digits=(10, 2),string='數量')
+    # 暫時用不到
+    # product_tmpl_id = fields.Many2one(comodel_name='product.template', related='product_id.product_tmpl_id', store=True, string='產品範本')
+    count = fields.Float(digits=(10, 2), string='數量')
     total_price = fields.Float(digits=(10, 2),string='總價')
     avg_price = fields.Float(digits=(10, 2), string='平均單價')
 

@@ -20,6 +20,8 @@
         'views/sale_order_view.xml',
         'views/res_partner_view.xml',
         'views/stock_picking_view.xml',
+        # 暫時用不到
+        # 'views/product_template_view.xml',
         'wizard/stock_out_view.xml',
         'views/menu.xml',
         'report/sale_order_report_view.xml'

@@ -9,7 +9,7 @@
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="mutex_sign" invisible="1"/>
                     <!--<field name="is_sign" attrs="{'invisible': [('mutex_sign', '=', True),('is_sign', '!=',True)]}"/>-->
-                    <field name="is_sign_pay" readonly="1" invisible="context.get('no_hide', True)" attrs="{'invisible': [('mutex_sign', '=', True),('is_sign_pay', '!=',True)]}"/>
+                    <field name="is_sign_pay" attrs="{'invisible': [('mutex_sign', '=', True),('is_sign_pay', '!=',True)]}"/>
                 </xpath>
 
                  <!--將send_stock的寄倉跟寄倉出貨設成互斥控制-->
@@ -22,33 +22,33 @@
                     <attribute name="readonly">1</attribute>
                 </xpath>
 
-                <xpath expr="//field[@name='order_line']" position="after">
-                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total" attrs="{'invisible': [('is_sign_pay', '=', False)]}">
-                        <field name="partner_sign_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                        <field name="partner_cost_toal" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                            <label for="partner_less_price"/>
-                        </div>
-                        <field name="partner_less_price" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                    </group>
-                </xpath>
+                <!--<xpath expr="//field[@name='order_line']" position="after">-->
+                    <!--<group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total" attrs="{'invisible': [('is_sign_pay', '=', False)]}">-->
+                        <!--<field name="partner_sign_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                        <!--<field name="partner_cost_toal" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                        <!--<div class="oe_subtotal_footer_separator oe_inline o_td_label">-->
+                            <!--<label for="partner_less_price"/>-->
+                        <!--</div>-->
+                        <!--<field name="partner_less_price" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>-->
+                    <!--</group>-->
+                <!--</xpath>-->
             </field>
         </record>
 
-        <record id="sign_check_sale_action" model="ir.actions.act_window">
-            <field name="name">簽口訂單</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">sale.order</field>
-            <field name="view_mode">tree,form</field>
-            <field name="context">{'default_is_sign_pay': 1,'no_hide':0}</field>
-            <field name="domain">[('is_sign_pay','=',1)]</field>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                <!-- Add Text Here -->
-              </p><p>
-                <!-- More details about what a user can do with this object will be OK -->
-              </p>
-            </field>
-        </record>
+        <!--<record id="sign_check_sale_action" model="ir.actions.act_window">-->
+            <!--<field name="name">簽口訂單</field>-->
+            <!--<field name="type">ir.actions.act_window</field>-->
+            <!--<field name="res_model">sale.order</field>-->
+            <!--<field name="view_mode">tree,form</field>-->
+            <!--<field name="context">{'default_is_sign_pay': 1,'no_hide':0}</field>-->
+            <!--<field name="domain">[('is_sign_pay','=',1)]</field>-->
+            <!--<field name="help" type="html">-->
+              <!--<p class="oe_view_nocontent_create">-->
+                <!--&lt;!&ndash; Add Text Here &ndash;&gt;-->
+              <!--</p><p>-->
+                <!--&lt;!&ndash; More details about what a user can do with this object will be OK &ndash;&gt;-->
+              <!--</p>-->
+            <!--</field>-->
+        <!--</record>-->
     </data>
 </odoo>

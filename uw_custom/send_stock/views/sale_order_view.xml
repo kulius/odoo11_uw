@@ -13,6 +13,7 @@
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
                     <field name="product_wholesale_price"/>
+                    <!--<field name="real_price_unit"/>-->
                 </xpath>
                 <xpath expr="//field[@name='confirmation_date']" position="after">
                     <field name="order_create_date"/>

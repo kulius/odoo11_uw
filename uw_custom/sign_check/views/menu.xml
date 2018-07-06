@@ -17,11 +17,11 @@
                   parent="sign_check_categ"
                   action="sign_batch_action_view"/>
 
-        <menuitem id="sign_check_sale_menu"
-                  action="sign_check_sale_action"
-                  name="簽口訂單"
-                  parent="sale.sale_order_menu"
-                  sequence="2"/>
+        <!--<menuitem id="sign_check_sale_menu"-->
+                  <!--action="sign_check_sale_action"-->
+                  <!--name="簽口訂單"-->
+                  <!--parent="sale.sale_order_menu"-->
+                  <!--sequence="2"/>-->
 
     </data>
 </odoo>

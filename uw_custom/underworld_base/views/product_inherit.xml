@@ -21,6 +21,11 @@
                <xpath expr="//field[@name='categ_id']" position="after">
                    <field name="product_memo"/>
                </xpath>
+
+               <header position="inside">
+                   <button name="chang_price" string="交換定價" type="object"/>
+                   <button name="tax_cancel_all" string="取消稅" type="object"/>
+               </header>
            </field>
        </record>
          <record id="product_filter_view_inherit" model="ir.ui.view">

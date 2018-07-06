@@ -13,7 +13,7 @@ class productinherit(models.Model):
     product_brand = fields.Char(string=u"品牌")
     en_name = fields.Char(string=u"英文品名")
     product_spec = fields.Char(string=u"產品規格")
-    wholesale_price = fields.Float(digits=(10,2),string=u"批發價")
+    wholesale_price = fields.Float(digits=(10, 2),string=u"標準定價")
     product_memo = fields.Char(string=u"產品參照")
 
 
@@ -33,3 +33,17 @@ class productinherit(models.Model):
             result.append((myrec.id, myproduct))
         return result
 
+    def chang_price(self):
+        for line in self.search([]):
+            tmp1 = line.wholesale_price
+            tmp2 = line.list_price
+            line.write({
+                'list_price': tmp1,
+                'wholesale_price': tmp2
+            })
+
+    def tax_cancel_all(self):
+        for line in self.search([]):
+            line.write({
+                'taxes_id': [(3, 1)]
+            })
