@@ -96,7 +96,7 @@ class SendStockSaleStock(models.Model):
 class SendStockSaleStockLine(models.Model):
     _inherit = 'sale.order.line'
 
-    product_wholesale_price = fields.Float(related='product_id.list_price', readonly=True, string='產品定價')
+    product_wholesale_price = fields.Float(related='product_id.wholesale_price', readonly=True, string='產品定價')
     # real_price_unit = fields.Float(digits=(10, 2), compute='compute_real_price_unit', string='實際單價')
 
     # 同時計算明細同商品的平均單價，但只能取得最新價格放到當前紀錄(one2many內)，未存檔前商品平均價格可能未會不一致，但存檔後相同商品單價會一致

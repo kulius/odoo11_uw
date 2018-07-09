@@ -10,6 +10,10 @@
                         <group>
                             <field name="partner_id"/>
                             <field name="last_total"/>
+                            <field name="order_total"/>
+                            <field name="order_ids"/>
+                            <field name="invoice_total"/>
+                            <field name="invoice_ids"/>
                         </group>
                         <field name="sign_account">
                             <tree>

@@ -6,9 +6,9 @@ from odoo.exceptions import UserError
 class AccountInvoiceSignCheck(models.Model):
     _inherit = 'account.invoice'
 
-    sign_check = fields.Boolean(string='簽口收款')
-    sign_pay = fields.Boolean(string='簽口付款')
-
+    sign_check = fields.Boolean(string='簽口應收發票')
+    sign_pay = fields.Boolean(string='待定義。')
+    sign_main_id = fields.Many2one(comodel_name='sign.main')
 
 
 

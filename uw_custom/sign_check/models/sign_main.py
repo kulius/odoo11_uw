@@ -7,7 +7,30 @@ class SignMain(models.Model):
 
     partner_id = fields.Many2one(comodel_name='res.partner', string='客戶')
     last_total = fields.Integer(string='剩餘金額', compute='compute_total')
+    order_total = fields.Integer(string='報價單總金額', compute='compute_order_total')
+    invoice_total = fields.Integer(string='應付發票總金額', compute='compute_invoice_total')
     sign_account = fields.One2many(comodel_name='sign.main.line', inverse_name='sign_id', string='變動明細')
+    order_ids = fields.One2many(comodel_name='sale.order', inverse_name='sign_main_id', string='簽口報價單')
+    invoice_ids = fields.One2many(comodel_name='account.invoice', inverse_name='sign_main_id', string='簽口應付發票')
+
+
+    @api.depends('invoice_ids')
+    def compute_invoice_total(self):
+        for line in self:
+            sum = 0
+            for invoice in line.invoice_ids.filtered(lambda r: r.state in ['draft', 'open']):
+                sum += invoice.amount_total_signed
+            line.invoice_total = sum
+
+
+
+    @api.depends('order_ids')
+    def compute_order_total(self):
+        for line in self:
+            sum = 0
+            for order in line.order_ids.filtered(lambda r: r.invoice_status in ['no','to invoice']):
+                sum += order.amount_total
+            line.order_total = sum
 
     @api.depends('sign_account')
     def compute_total(self):

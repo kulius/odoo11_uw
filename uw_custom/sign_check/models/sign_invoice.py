@@ -66,7 +66,7 @@ class SignInvoice(models.Model):
         partner = self.env['sign.main'].search([('partner_id', '=', self.partner_id.id)])
         if len(partner) > 0:
             self.partner_sign_price = partner.last_total
-        invoice_ids = self.env['account.invoice'].search([('partner_id', '=', self.partner_id.id),('state', '=', 'draft')])
+        invoice_ids = self.env['account.invoice'].search([('partner_id', '=', self.partner_id.id),('state', '=', 'draft'), ('sign_check', '=', True)])
         data =[]
         for line in invoice_ids:
             data.append([4, line.id])
@@ -74,7 +74,7 @@ class SignInvoice(models.Model):
         self.check_invoice_ids = data
         return {'domain':
                     {'check_invoice_ids':
-                         [('partner_id', '=', self.partner_id.id), ('state', '=', 'draft')]
+                         [('partner_id', '=', self.partner_id.id), ('state', '=', 'draft'), ('sign_check', '=', True)]
                      }
                 }
     @api.depends('check_invoice_ids', 'sign_invoice_line_ids')
