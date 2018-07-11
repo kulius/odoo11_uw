@@ -18,7 +18,7 @@
                         <field name="sign_account">
                             <tree>
                                 <field name="create_date"/>
-                                <field name="sale_from"/>
+                                <field name="sign_invoice"/>
                                 <field name="price"/>
                             </tree>
                         </field>

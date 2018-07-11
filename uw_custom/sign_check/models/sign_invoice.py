@@ -18,12 +18,12 @@ class SignInvoice(models.Model):
     state = fields.Selection(selection=[('draft', '草稿'), ('invoiced', '已開發票')], default='draft')
     batch_id = fields.Many2one(comodel_name='sign.batch')
 
-    def write_sign_line(self):
+    def write_sign_line(self, invoice):
         partner = self.env['sign.main'].search([('partner_id', '=', self.partner_id.id)])
         if len(partner) > 0:
             partner.write({
                 'sign_account': [(0, 0, {
-                    'sign_from': self.id,
+                    'sign_invoice': invoice.id,
                     'price': self.sign_invoice_ids_total
                 })]
             })
@@ -49,15 +49,17 @@ class SignInvoice(models.Model):
         })
         self.created_invoice = res.id
         self.name = '簽口' + str(self.id)
-        self.write_sign_line()
+        self.write_sign_line(res)
 
     def open_and_pay_invoice(self):
-        # 一次做完打開與登記付款
+        # 一次做完買簽口發票的打開與登記付款
         self.create_invoice()
         self.created_invoice.action_invoice_open()
         journal = self.env['account.journal'].search([('name', 'like', '簽口')], limit=1)
         self.created_invoice.pay_and_reconcile(journal, self.created_invoice.amount_total)
         self.state = 'invoiced'
+
+        # 將簽口未付發票變成打開狀態
         for line in self.check_invoice_ids:
             line.action_invoice_open()
 
