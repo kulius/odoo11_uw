@@ -15,8 +15,10 @@
                     <div class="oe_subtotal_footer" attrs="{'invisible': [('is_sign_pay', '!=', True)]}">
                         <label for="partner_sign_total"/>
                         <field name="partner_sign_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <br/>
                         <label for="partner_cost_toal"/>
                         <field name="partner_cost_toal" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <br/>
                         <label for="partner_payable_total"/>
                         <field name="partner_payable_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     </div>

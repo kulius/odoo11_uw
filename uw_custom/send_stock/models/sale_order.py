@@ -97,42 +97,23 @@ class SendStockSaleStockLine(models.Model):
     _inherit = 'sale.order.line'
 
     product_wholesale_price = fields.Float(related='product_id.wholesale_price', readonly=True, string='產品定價')
-    # real_price_unit = fields.Float(digits=(10, 2), compute='compute_real_price_unit', string='實際單價')
+    real_price_unit = fields.Float(digits=(10, 2), compute='compute_real_price_unit',store=True, string='平均單價')
 
     # 同時計算明細同商品的平均單價，但只能取得最新價格放到當前紀錄(one2many內)，未存檔前商品平均價格可能未會不一致，但存檔後相同商品單價會一致
-    # @api.depends('product_uom_qty', 'price_unit')
-    # def compute_real_price_unit(self):
-    #     if len(self) == 1:
-    #         order_line = self.order_id.order_line
-    #         print(order_line.filtered(lambda r:r.product_id.id == self.product_id.id))
-    #         sum = 0
-    #         price = 0
-    #         for line in order_line.filtered(lambda r:r.product_id.id == self.product_id.id):
-    #             sum += line.product_uom_qty
-    #             price += line.price_total
-    #             print(sum,price)
-    #         for line in order_line.filtered(lambda r:r.product_id.id == self.product_id.id):
-    #             if sum != 0:
-    #                 line.update({
-    #                     'real_price_unit': price / sum
-    #                 })
-    #     else:
-    #         print('多筆self' + str(len(self)))
-    #         res = []
-    #         for line in self:
-    #             if line.product_id.id not in res:
-    #                 res.append(line.product_id.id)
-    #         for line in res:
-    #             sum = 0.0
-    #             price = 0.0
-    #             for row in self:
-    #                 if row.product_id.id == line:
-    #                     sum += row.product_uom_qty
-    #                     price += row.price_total
-    #
-    #             for row in self:
-    #                 if row.product_id.id == line:
-    #                     row.real_price_unit = price / sum
+    @api.depends('product_uom_qty', 'price_unit')
+    def compute_real_price_unit(self):
+        for row in self:
+            order_line = row.order_id.order_line
+            sum = 0
+            price = 0
+            for line in order_line.filtered(lambda r: r.product_id.id == row.product_id.id):
+                sum += line.product_uom_qty
+                price += line.price_total
+            for line in order_line.filtered(lambda r: r.product_id.id == row.product_id.id):
+                if sum != 0:
+                    line.real_price_unit = price / sum
+                else:
+                    line.real_price_unit = 0
 
 
 class SendStockPriceLine(models.Model):

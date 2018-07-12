@@ -7,21 +7,27 @@
             <field name="arch" type="xml">
                 <form string="">
                     <sheet>
-                        <group>
-                            <field name="partner_id"/>
-                            <field name="last_total"/>
-                            <field name="order_total"/>
-                            <field name="order_ids"/>
-                            <field name="invoice_total"/>
-                            <field name="invoice_ids"/>
+                        <group string="簽口資料">
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="last_total"/>
+                                <field name="order_total"/>
+                                <field name="invoice_total"/>
+                            </group>
                         </group>
-                        <field name="sign_account">
-                            <tree>
-                                <field name="create_date"/>
-                                <field name="sign_invoice"/>
-                                <field name="price"/>
-                            </tree>
-                        </field>
+                        <group string="簽口明細">
+                            <group>
+                                <field name="order_ids"/>
+                                <field name="invoice_ids"/>
+                                <field name="sign_account">
+                                    <tree>
+                                        <field name="create_date" string="變動時間"/>
+                                        <field name="sign_invoice"/>
+                                        <field name="price"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
                     </sheet>
                 </form>
             </field>
@@ -34,6 +40,8 @@
                 <tree string="">
                     <field name="partner_id"/>
                     <field name="last_total"/>
+                    <field name="order_total"/>
+                    <field name="invoice_total"/>
                     <field name="sign_account"/>
                 </tree>
             </field>
