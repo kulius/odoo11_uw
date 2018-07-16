@@ -123,8 +123,16 @@ class SignInvoiceLine(models.Model):
     def pay_the_paid(self):
         self.is_paid = True
 
+    @api.onchange('product_id')
+    def onchang_product_id(self):
+        res = self.env['product.product'].search([('name', 'like', '簽口')])
+        if len(res) == 1:
+            self.product_id = res.id
+
     @api.depends('price')
     def cmpute_sign_price(self):
+        # 可能需要將price跟cash_discount分開處理
+        # key 錯先金優惠金額 1500 > 3000 支付金額卻是 48500 > 45500 應該是 47000
         for line in self:
             total = line.price + line.cash_discount
             times1 = 0.0
