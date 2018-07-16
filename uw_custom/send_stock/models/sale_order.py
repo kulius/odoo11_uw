@@ -65,6 +65,8 @@ class SendStockSaleStock(models.Model):
                             'operate_qty': line.product_uom_qty
                         })]
                     })
+
+            self.picking_ids.unlink()
         if self.is_send_out is True:
             for line in self.order_line:
                 # 沒有send_id_qty了
@@ -82,14 +84,6 @@ class SendStockSaleStock(models.Model):
                     })
                 else:
                     raise UserError("錯誤!! 商品 %s 沒有寄倉庫存" % line.product_id.name)
-        # 不需要確認寄倉單
-        # pick = self.picking_ids
-        # pick.force_assign()
-        # for line in pick.move_lines:
-        #     line.write({
-        #         'quantity_done': line.product_uom_qty
-        #     })
-        # pick.button_validate()
         return res
 
 

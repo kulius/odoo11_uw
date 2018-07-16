@@ -31,6 +31,10 @@
                         </tree>
                     </field>
                 </xpath>
+                <!--如果是寄倉出貨，不能夠按建立發票。-->
+                <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d' and @class='btn-primary']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', ('invoice_status', '!=', 'to invoice'), ('is_send_out','=',True)]}</attribute>
+                </xpath>
             </field>
         </record>
 

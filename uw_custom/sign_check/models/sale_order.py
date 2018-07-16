@@ -36,14 +36,14 @@ class SignCheckSaleOrder(models.Model):
 
     @api.model
     def create(self, vals):
-
-        if vals['is_sign_pay'] is True and not vals['sign_main_id']:
-            partner = self.env['sign.main'].search([('partner_id', '=', vals['partner_id'])])
-            if len(partner) == 0:
-                partner = self.env['sign.main'].create({
-                    'partner_id': vals['partner_id']
-                })
-                vals['sign_main_id'] = partner.id
+        if 'is_sign_pay' in vals:
+            if vals['is_sign_pay'] is True and not vals['sign_main_id']:
+                partner = self.env['sign.main'].search([('partner_id', '=', vals['partner_id'])])
+                if len(partner) == 0:
+                    partner = self.env['sign.main'].create({
+                        'partner_id': vals['partner_id']
+                    })
+                    vals['sign_main_id'] = partner.id
 
         res = super(SignCheckSaleOrder, self).create(vals)
         return res

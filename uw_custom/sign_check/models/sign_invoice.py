@@ -126,7 +126,7 @@ class SignInvoiceLine(models.Model):
     @api.depends('price')
     def cmpute_sign_price(self):
         for line in self:
-            total = line.price
+            total = line.price + line.cash_discount
             times1 = 0.0
             times2 = 0.0
             while total >= 30000:
@@ -136,8 +136,8 @@ class SignInvoiceLine(models.Model):
                 elif total >= 30000:
                     total = total - 30000
                     times2 += 1
-            line.sign_price = line.price + 10000*times1 + 3000*times2
-            line.sign_discount = 10000*times1 + 3000*times2
+            line.sign_price = line.price + 10000*times1 + 3000*times2 + line.cash_discount
+            line.sign_discount = 10000*times1 + 3000*times2 + line.cash_discount
 
     @api.onchange('cash_discount')
     def set_price(self):
