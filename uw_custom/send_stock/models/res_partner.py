@@ -8,3 +8,4 @@ class SendStockResPartner(models.Model):
 
     full_name = fields.Char(string='客戶全銜')
     saler_ids = fields.Many2many(comodel_name='res.users', string='麥可銷售員')
+    group_custom_id = fields.Many2one(comodel_name='group.custom', string='群組')

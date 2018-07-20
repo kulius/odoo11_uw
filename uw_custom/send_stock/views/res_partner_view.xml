@@ -9,6 +9,7 @@
                 <xpath expr="//field[@name='cus_kind']" position="after">
                     <field name="full_name"/>
                     <field name="saler_ids" widget="many2many_tags"/>
+                    <field name="group_custom_id"/>
                 </xpath>
             </field>
         </record>

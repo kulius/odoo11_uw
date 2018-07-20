@@ -7,12 +7,7 @@
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='categ_id']" position="after">
-                    <field name="real_unit_price_sale">
-                        <tree>
-                            <field name="order_id"/>
-                            <field name="avg_price"/>
-                        </tree>
-                    </field>
+                    <field name="group_product_id"/>
                 </xpath>
             </field>
         </record>

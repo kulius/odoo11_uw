@@ -7,7 +7,7 @@ class SendStockMain(models.Model):
 
     partner_id = fields.Many2one(comodel_name='res.partner', string='客戶')
     product_id = fields.Many2one(comodel_name='product.product', string='產品')
-    last_total = fields.Float(string='剩餘數量', compute='compute_total')
+    last_total = fields.Float(string='剩餘數量', compute='compute_total', store=True)
     send_ids = fields.One2many(comodel_name='send.stock.line', inverse_name='send_id', string='寄倉明細')
 
     @api.depends('send_ids')

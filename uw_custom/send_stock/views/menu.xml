@@ -18,5 +18,17 @@
                   name="寄倉出庫單"
                   parent="send_stock_categ"
                   sequence="4"/>
+
+        <menuitem id="group_custom_menu"
+                  name="客戶群組"
+                  parent="sale.sale_order_menu"
+                  action="group_custom_view_action"
+                  sequence="5"/>
+
+        <menuitem id="group_product_menu"
+                  name="產品群組"
+                  parent="sale.product_menu_catalog"
+                  action="group_product_view_action"
+                  sequence="2"/>
     </data>
 </odoo>

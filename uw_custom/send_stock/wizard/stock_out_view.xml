@@ -12,16 +12,21 @@
                             colspan="4" />
                     </group>
                     <group>
-                        <field name="partner_id"/>
-                        <field name="out_ids" nolable="1">
-                            <tree editable="bottom">
-                                <!--<field name="send_stock_id" invisible="1"/>-->
-                                <field name="product_id"/>
-                                <field name="last_total"/>
-                                <field name="out_qty"/>
-                            </tree>
-                        </field>
+                        <field name="partner_id" invisible="1"/>
+                        <field name="related_pratner_group_id" invisible="1"/>
+                        <field name="related_partner_id"/>
+                        <field name="partner_out_id"/>
                     </group>
+                    <field name="out_ids">
+                        <tree editable="bottom">
+                            <!--<field name="send_stock_id" invisible="1"/>-->
+                            <field name="related_product_group_id" invisible="1"/>
+                            <field name="product_id"/>
+                            <field name="change_product_id"/>
+                            <field name="last_total"/>
+                            <field name="out_qty"/>
+                        </tree>
+                    </field>
                     <footer>
                         <button name="create_stock_out" string="產生寄倉出貨單"
                             type="object" class="oe_highlight" />
