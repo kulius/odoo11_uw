@@ -23,6 +23,7 @@
         'views/res_partner_view.xml',
         'views/product_template_view.xml',
         'views/sign_batch_view.xml',
+        'views/sign_transfer_view.xml',
         'views/menu.xml'
     ],
     'demo': [],

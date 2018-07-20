@@ -5,3 +5,4 @@ from . import sale_order
 from . import sign_invoice
 from . import res_partner
 from . import product_template
+from . import sign_transfer

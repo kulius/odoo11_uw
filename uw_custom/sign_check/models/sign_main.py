@@ -4,9 +4,10 @@ from odoo import models, api,fields
 
 class SignMain(models.Model):
     _name = 'sign.main'
+    _rec_name = 'partner_id'
 
     partner_id = fields.Many2one(comodel_name='res.partner', string='客戶')
-    last_total = fields.Integer(string='剩餘簽口金額', compute='compute_total')
+    last_total = fields.Integer(string='剩餘簽口金額', compute='compute_total', store=True)
     order_total = fields.Integer(string='報價(銷售)單總金額', compute='compute_order_total')
     invoice_total = fields.Integer(string='簽口未付發票金額', compute='compute_invoice_total')
     sign_account = fields.One2many(comodel_name='sign.main.line', inverse_name='sign_id', string='變動明細')
@@ -14,6 +15,7 @@ class SignMain(models.Model):
                                 domain=[('invoice_status', 'in', ['no', 'to invoice'])], string='報價(銷售)報價單')
     invoice_ids = fields.One2many(comodel_name='account.invoice', inverse_name='sign_main_id',
                                   domain=[('state', 'in', ['draft', 'open'])], string='簽口未付發票')
+    group_custom_id = fields.Many2one(related='partner_id.group_custom_id', store=True)
 
 
     @api.depends('invoice_ids')
