@@ -1,5 +1,6 @@
 # _*_ coding: utf-8 _*_
 from odoo import models, api,fields
+from odoo.exceptions import UserError
 
 
 class SignInvoice(models.Model):
@@ -7,16 +8,19 @@ class SignInvoice(models.Model):
 
     name = fields.Char(string='名稱')
     partner_id = fields.Many2one(comodel_name='res.partner', string='客戶名稱')
+    sign_id = fields.Many2one(comodel_name='sign.main', string='邏輯用簽口客戶')
     partner_sign_price = fields.Float(string='當時剩餘簽口')
-    check_invoice_ids = fields.Many2many(comodel_name='account.invoice', string='勾選的發票')
-    check_invoice_total = fields.Float(string='簽口發票金額', compute='compute_total_price')
+    check_invoice_ids = fields.Many2many(comodel_name='account.invoice', string='勾選的帳單')
+    check_invoice_total = fields.Float(string='簽口帳單金額', compute='compute_total_price')
     sign_invoice_line_ids = fields.One2many(comodel_name='sign.invoice.line', inverse_name='sign_id', string='簽口明細')
     sign_invoice_ids_total = fields.Float(string='購買簽口價值', compute='compute_total_price')
     sign_invoice_pay = fields.Float(string='實際購買簽口金額', compute='compute_total_price')
     less_sign_price = fields.Float(string='剩餘簽口金額', compute='compute_total_price')
-    created_invoice = fields.Many2one(comodel_name='account.invoice', string='建立的發票', readonly=True)
-    state = fields.Selection(selection=[('draft', '草稿'), ('invoiced', '已開發票')], default='draft')
+    created_invoice = fields.Many2one(comodel_name='account.invoice', string='建立的帳單', readonly=True)
+    state = fields.Selection(selection=[('draft', '草稿'), ('invoiced', '已開帳單')], default='draft')
     batch_id = fields.Many2one(comodel_name='sign.batch')
+
+    # partner_group_ids = fields.One2many(comodel_name='sign.main.group', inverse_name='sign_id',related='sign_id.group_ids')
 
     def write_sign_line(self, invoice, sign):
         # sign代表是否為 買簽口(增加) 或 簽口付款 (減少)
@@ -38,6 +42,7 @@ class SignInvoice(models.Model):
                 })
 
 
+
     def create_invoice(self):
         invoice_lines = []
         for line in self.sign_invoice_line_ids:
@@ -54,7 +59,7 @@ class SignInvoice(models.Model):
             'partner_id': self.partner_id.id,
             'invoice_line_ids': invoice_lines,
             'sign_pay': 1,
-            'name': '簽口發票' + str(self.id),
+            'name': '簽口帳單' + str(self.id),
             'type': 'out_invoice',
         })
         self.created_invoice = res.id
@@ -80,12 +85,15 @@ class SignInvoice(models.Model):
         partner = self.env['sign.main'].search([('partner_id', '=', self.partner_id.id)])
         if len(partner) > 0:
             self.partner_sign_price = partner.last_total
+        # else:
+        #     raise UserError('該客戶沒有簽口!!')
         invoice_ids = self.env['account.invoice'].search([('partner_id', '=', self.partner_id.id),('state', '=', 'draft'), ('sign_check', '=', True)])
         data =[]
         for line in invoice_ids:
             data.append([4, line.id])
 
         self.check_invoice_ids = data
+        self.sign_id = partner.id
         return {'domain':
                     {'check_invoice_ids':
                          [('partner_id', '=', self.partner_id.id), ('state', '=', 'draft'), ('sign_check', '=', True)]
@@ -204,7 +212,7 @@ class SignBatchLine(models.Model):
 
     batch_id = fields.Many2one(comodel_name='sign.batch')
     partner_id = fields.Many2one(comodel_name='res.partner', string='客戶名稱')
-    invoice_amount = fields.Float(string='發票總金額')
+    invoice_amount = fields.Float(string='帳單總金額')
     sign_amount = fields.Float(string='簽口金額')
     invoice_ids = fields.Char()
 

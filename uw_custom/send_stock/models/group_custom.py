@@ -6,6 +6,7 @@ class GroupCustom(models.Model):
     _name = 'group.custom'
 
     name = fields.Char(string='群組名稱')
+    group_ids = fields.One2many(comodel_name='res.partner', inverse_name='group_custom_id')
 
 
 class GroupProduct(models.Model):

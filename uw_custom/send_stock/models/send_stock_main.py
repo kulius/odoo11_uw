@@ -19,6 +19,69 @@ class SendStockMain(models.Model):
 
             line.last_total = sum
 
+    @api.multi
+    def create_sale_out(self):
+        partner = []
+        for line in self:
+            if line.partner_id.id not in partner:
+                partner.append(line.partner_id.id)
+
+        if len(partner) == 1:
+            res = []
+            for row in self:
+                res.append([0, 0, {
+                    'product_id': row.product_id.id,
+                    'name': row.product_id.name,
+                    'product_uom': row.product_id.uom_id.id,
+                    'price_unit': row.product_id.list_price,
+                    'product_uom_qty': row.last_total
+                }])
+
+            record = self.env['sale.order'].create({
+                'partner_id': self[0].partner_id.id,
+                'is_send_out': True,
+                'order_line': res
+            })
+
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'sale.order',
+                'res_id': record.id,
+                'view_type': 'form',
+                'view_mode': 'form',
+                'target': 'current',
+                'context': {'form_view_initial_mode': 'edit'}
+            }
+        # 一次產生多筆寄倉出貨單用
+        # elif len(partner) > 1:
+        #     res = []
+        #     records = self.env['sale.order']
+        #     for row in out_records:
+        #         res.append([0, 0, {
+        #             'product_id': row.product_id.id,
+        #             'name': row.product_id.name,
+        #             'product_uom': row.product_id.uom_id.id,
+        #             'price_unit': row.product_id.list_price,
+        #             'product_uom_qty': row.last_total
+        #         }])
+        #
+        #     records += self.env['sale.order'].create({
+        #         'partner_id': self.partner_out_id.id,
+        #         'is_send_out': True,
+        #         'order_line': res
+        #     })
+        #
+        #     return {
+        #         'type': 'ir.actions.act_window',
+        #         'res_model': 'sale.order',
+        #         'res_id': records.ids,
+        #         'view_type': 'tree,form',
+        #         'view_mode': 'tree',
+        #         'target': 'current'
+        #     }
+
+
+
 
 class SendStockLine(models.Model):
     _name = 'send.stock.line'

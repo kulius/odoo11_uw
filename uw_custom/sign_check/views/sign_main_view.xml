@@ -13,6 +13,12 @@
                                 <field name="last_total"/>
                                 <field name="order_total"/>
                                 <field name="invoice_total"/>
+                                <!--<field name="group_ids">-->
+                                    <!--<tree>-->
+                                        <!--<field name="group_id"/>-->
+                                        <!--<field name="price"/>-->
+                                    <!--</tree>-->
+                                <!--</field>-->
                             </group>
                         </group>
                         <group string="簽口明細">

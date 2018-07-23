@@ -35,6 +35,14 @@
                 <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d' and @class='btn-primary']" position="attributes">
                     <attribute name="attrs">{'invisible': ['|', ('invoice_status', '!=', 'to invoice'), ('is_send_out','=',True)]}</attribute>
                 </xpath>
+                <!--隱藏打印按鈕1-->
+                <xpath expr="//button[@name='print_quotation' and @class='btn-primary o_sale_print']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--隱藏打印按鈕2-->
+                <xpath expr="//button[@name='print_quotation' and @class='o_sale_print']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
             </field>
         </record>
 

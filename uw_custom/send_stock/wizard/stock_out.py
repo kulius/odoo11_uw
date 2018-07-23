@@ -44,6 +44,7 @@ class StockOut(models.TransientModel):
 
 
     def create_stock_out(self):
+
         sale = self.env['sale.order']
         res = []
         for line in self.out_ids.filtered(lambda r: r.out_qty > 0):

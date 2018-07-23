@@ -78,5 +78,16 @@
               </p>
             </field>
         </record>
+
+        <record id="send_stock_out_server_action" model="ir.actions.server">
+            <field name="name">產生寄倉出貨單</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="send_stock.model_send_stock_main" />
+            <field name="binding_model_id" ref="send_stock.model_send_stock_main" />
+            <field name="state">code</field>
+            <field name="code">
+                action = records.create_sale_out()
+            </field>
+        </record>
     </data>
 </odoo>

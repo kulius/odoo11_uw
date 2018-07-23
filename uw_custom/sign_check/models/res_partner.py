@@ -7,3 +7,4 @@ class SignCheckResPartner(models.Model):
     _inherit = 'res.partner'
 
     is_month_account = fields.Boolean(string='月結用戶')
+    sign_ids = fields.One2many(comodel_name='sign.main', inverse_name='partner_id')

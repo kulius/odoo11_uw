@@ -6,10 +6,26 @@
             <field name="model">sign.transfer</field>
             <field name="arch" type="xml">
                 <form string="">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,invoiced"/>
+                    </header>
                     <sheet>
+                         <div class="oe_button_box" name="button_box">
+                            <button name=""
+                                    string="確定轉出"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    attrs="{'invisible': [('state', '=', 'invoiced')]}">
+                                <!--<field name="invoice_count" widget="statinfo" string="Invoices"/>-->
+                            </button>
+                        </div>
                         <group>
                             <field name="partner_out_id"/>
+                            <field name="partner_out_price"/>
+                            <field name="transfer_price"/>
                             <field name="partner_in_id"/>
+                            <field name="partner_in_price"/>
                         </group>
                     </sheet>
                 </form>

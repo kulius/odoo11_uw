@@ -12,7 +12,7 @@
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button name="open_and_pay_invoice"
-                                    string="開簽口發票並登記付款"
+                                    string="開簽口帳單並登記付款"
                                     type="object"
                                     class="oe_stat_button"
                                     icon="fa-pencil-square-o"
@@ -23,10 +23,17 @@
                         <group>
                             <field name="created_invoice"/>
                             <field name="partner_id"/>
+                            <!--<field name="sign_id"/>-->
                             <field name="partner_sign_price"/>
+                            <!--<field name="partner_group_ids">-->
+                                <!--<tree>-->
+                                    <!--<field name="group_id"/>-->
+                                    <!--<field name="price"/>-->
+                                <!--</tree>-->
+                            <!--</field>-->
                         </group>
                         <group>
-                            <h2>簽口未付發票</h2>
+                            <h2>簽口未付帳單</h2>
                             <field name="check_invoice_ids">
                                 <tree>
 
